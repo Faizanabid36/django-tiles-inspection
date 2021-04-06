@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<!-- begin::Head -->
+<head>
+    <base href="../../../">
+    {% load static %}
+    <meta charset="utf-8"/>
+    <title>Configure Tile</title>
+    <meta name="description" content="Login page example">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--begin::Fonts -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+
+    <!--end::Fonts -->
+
+    <!--begin::Page Custom Styles(used by this page) -->
+    <link href="{%static 'assets/css/pages/login/login-2.css'%}" rel="stylesheet" type="text/css"/>
+
+    <!--end::Page Custom Styles -->
+
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="{% static 'assets/plugins/global/plugins.bundle.css'%}" rel="stylesheet" type="text/css"/>
+    <link href="{%static 'assets/css/style.bundle.css'%}" rel="stylesheet" type="text/css"/>
+
+    <!--end::Global Theme Styles -->
+
+    <!--begin::Layout Skins(used by all pages) -->
+
+    <!--end::Layout Skins -->
+    <link rel="shortcut icon" href="assets/media/logos/favicon.ico"/>
+</head>
+
+<!-- end::Head -->
+{% load static %}
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+<!-- begin:: Page -->
+<div class="kt-grid kt-grid--ver kt-grid--root kt-page">
+    <div class="kt-grid kt-grid--hor kt-grid--root kt-login kt-login--v2 kt-login--signin" id="kt_login">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor"
+             style="background-image: url({%static 'assets/media/bg/bg-1.jpg'%});">
+            <div class="kt-grid__item kt-grid__item--fluid kt-login__wrapper">
+                <div class="kt-login__container">
+                    <div class="kt-login__logo">
+                        <a href="#">
+                            <img src="{%static 'assets/media/logos/766.png'%}" style="width:145px">
+                        </a>
+                    </div>
+                    <div class="kt-login__signin">
+                        <div class="kt-login__head">
+
+
+                        </div>
+                        <form class="kt-form" action="start_inspection" method="post">
+                            {% csrf_token %}
+
+                            <!--                                     <div class="form-group">-->
+                            <div class="kt-portlet__body">
+
+                                <h4 style="color:white;text-align:center" class="flaticon-safe-shield-protection">
+                                    Inspection type</h4>
+                                <!--										 <label for="exampleSelect1"class="flaticon-safe-shield-protection" style="color:white"> Inspection Type </label>-->
+                                <select name="type" class="form-control" id="exampleSelect1">
+                                    <option value="" disabled selected>Choose One</option>
+                                    <option value="pattern_mismatch">Pattern Mismatch</option>
+                                    <option value="defects_detection">Defect Detection</option>
+                                </select>
+                            </div><br><br>
+                            <div class="form-group">
+                                <h4 style="color:white;text-align:center" class="kt-menu__link-icon flaticon-list"> Generate Report</h4>
+                                <div class="kt-radio-inline"style="text-align:center"><br>
+                                    <label class="kt-radio" style="align:center; color:white">
+                                        <input type="radio" name="radio2" value="yes"> Yes
+                                        <span></span>
+                                    </label>
+                                    <label class="kt-radio" style="text-align:center; color:white">
+                                        <input type="radio" name="radio2" value="no"> No
+                                        <span></span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="kt-login__actions">
+                                <button id="kt_login_signin_submit" class="btn btn-pill kt-login__btn-primary">Start
+                                    Inspection
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="kt-login__forgot">
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:: Page -->
+
+<!-- begin::Global Config(global config for global JS sciprts) -->
+<script>
+			var KTAppOptions = {
+				"colors": {
+					"state": {
+						"brand": "#2c77f4",
+						"light": "#ffffff",
+						"dark": "#282a3c",
+						"primary": "#5867dd",
+						"success": "#34bfa3",
+						"info": "#36a3f7",
+						"warning": "#ffb822",
+						"danger": "#fd3995"
+					},
+					"base": {
+						"label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+						"shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+					}
+				}
+			};
+
+</script>
+
+<!-- end::Global Config -->
+
+<!--begin::Global Theme Bundle(used by all pages) -->
+<script src="assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>
+<script src="assets/js/scripts.bundle.js" type="text/javascript"></script>
+
+<!--end::Global Theme Bundle -->
+
+<!--begin::Page Scripts(used by this page) -->
+<script src="assets/js/pages/custom/login/login-general.js" type="text/javascript"></script>
+
+<!--end::Page Scripts -->
+</body>
+
+
+<!-- end::Body -->
+</html>

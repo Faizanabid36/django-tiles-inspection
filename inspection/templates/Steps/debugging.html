@@ -1,0 +1,200 @@
+{% extends 'main.html' %}
+{% block content%}
+
+
+<html lang="en">
+
+<!-- begin::Head -->
+{% load static %}
+
+<!-- end::Head -->
+
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+<!-- begin:: Page -->
+
+<!-- begin:: Header Mobile -->
+
+
+<!-- end:: Header Mobile -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+        <!-- begin:: Aside -->
+        <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
+
+
+        <!-- end:: Aside -->
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+
+            <!-- begin:: Header -->
+
+
+            <!-- end:: Header -->
+            <div class="kt-content  kt-content--fit-top  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor"
+                 id="kt_content">
+
+                <!-- begin:: Content -->
+
+                <!-- begin:: hero -->
+                <div class="kt-sc-license" style="background-color:#282733; height:140px ">
+                    <div class="kt-container ">
+                        <div class="kt-sc__top">
+                            <h3 class="kt-sc__title">
+
+
+                            </h3>
+                            <h1 style="color:white" align="middle"> Debugging Mode</h1>
+
+
+                            <div class="kt-sc__nav">
+                                <h1 style="color:white" align="middle" class="fas fa-bug"><b></b></h1> <br><br>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- end:: hero -->
+
+                <!--end: Form Wizard Nav -->
+
+                <div class="kt-negative-spacing--3"></div>
+                <br>
+                <!--                step1-->
+
+
+                <!--                step 4-->
+                {% for obj in array %}
+
+                 <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head kt-portlet__head--noborder" style="min-height:30px !important;">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit-y kt-margin-b-40">
+                            <div class="kt-portlet ">
+                                <div class="kt-portlet__body">
+                                    <div class="kt-widget kt-widget--user-profile-3">
+                                        <div class="kt-widget__top">
+                                            <div class="kt-widget__media kt-hidden-">
+                                                <h2 class="flaticon-list">
+                                                    Steps {{obj.step}}:
+                                                </h2>
+                                                <br>
+                                                <img src="{{obj.frame}}"
+                                                     alt="image" style="width:300px ;height:300px">
+                                            </div>
+                                            <div class="kt-widget__content">
+
+                                                <div class="kt-widget__info">
+                                                    <div class="kt-widget__desc">
+
+                                                        <br><br><br><br>
+                                                        <h3><b>
+                                                            <li>{{ obj.title }}</li>
+                                                        </b></h3>
+                                                        <!--<h2 ><b> <li>{{name}}</li></b> </h2>-->
+
+                                                        <br>
+                                                    </div>
+
+
+                                                    <div class="kt-widget__stats d-flex align-items-center flex-fill">
+
+
+                                                        <div class="kt-widget__item flex-fill">
+
+                                                            <div class="kt-widget__progress d-flex  align-items-center">
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-widget__bottom">
+                                            <div class="kt-widget__item">
+                                                <div class="kt-widget__icon">
+                                                    <i class="flaticon-pie-chart-1 kt-font-info"></i>
+                                                </div>
+                                                <div class="kt-widget__details">
+                                                    <span class="kt-widget__title">Screen Type</span>
+                                                    <span class="kt-widget__value"><span>{{Inspection.type}}</span></span>
+                                                </div>
+                                            </div>
+                                            <div class="kt-widget__item">
+                                                <div class="kt-widget__icon">
+                                                    <i class="flaticon-safe-shield-protection  kt-font-success"></i>
+                                                </div>
+                                                <div class="kt-widget__details">
+                                                    <span class="kt-widget__title">Response code</span>
+                                                    <span class="kt-widget__value"><span>{{obj.status}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="kt-widget__item">
+                                                <div class="kt-widget__icon">
+                                                    <i class="flaticon2-line-chart kt-font-danger"></i>
+                                                </div>
+                                                <div class="kt-widget__details">
+                                                    <span class="kt-widget__title"><br>Response:</span>
+                                                    <span class="kt-widget__value"><span></span> Url:"{{obj.frame}}" </span>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+
+
+                <!-- begin:: Footer -->
+                <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+                    <div class="kt-container  kt-container--fluid ">
+                        <div class="kt-footer__copyright">
+                            2021&nbsp;&copy;&nbsp;<a href="http://keenthemes.com/metronic" target="_blank"
+                                                     class="kt-link">tiles inspection</a>
+                        </div>
+                        <div class="kt-footer__menu">
+                            <a href="http://keenthemes.com/metronic" target="_blank"
+                               class="kt-footer__menu-link kt-link">About</a>
+                            <a href="http://keenthemes.com/metronic" target="_blank"
+                               class="kt-footer__menu-link kt-link">Team</a>
+                            <a href="http://keenthemes.com/metronic" target="_blank"
+                               class="kt-footer__menu-link kt-link">Contact</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end:: Footer -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+
+<!-- end::Body -->
+
+
+{% endblock %}

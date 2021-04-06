@@ -1,0 +1,30 @@
+{% extends 'empty-page.html' %}
+{% block content%}
+<body>
+<center>
+    <h1>Connection of server</h1>
+    <hr/>
+    <tabele border="1">
+        <tr>
+            <th>Emp id</th>
+            <th>Emp name</th>
+            <th>Emp pass</th>
+        </tr>
+        {% for datadisplay in connect%}
+        <tr>
+            <td>{{datadisplay.u_id}}</td>
+            <td>{{datadisplay.username}}</td>
+            <td>{{datadisplay.password}}</td>
+        </tr>
+        {% endfor %}
+    </tabele>
+
+</center>
+
+<form action="">
+
+    <text></text>
+
+</form>
+</body>
+{% endblock %}
