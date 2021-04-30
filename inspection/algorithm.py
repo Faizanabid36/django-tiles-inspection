@@ -47,13 +47,8 @@ class Inspection:
         pathh = os.path.abspath(path + '/' + name)
         return pathh
 
-    # fs = FileSystemStorage(location=path)  # defaults to   MEDIA_ROOT
-    # filename = fs.save(name, content)
-
-    # filename = fs.save(name, content)
-
     def start_inspection(self):
-        videocapture = cv2.VideoCapture(0)
+        videocapture = cv2.VideoCapture(1)
 
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
@@ -185,10 +180,18 @@ class Inspection:
                     Standard_image2_path = self.saveImage_pattern(str('PPM_IM2' + str(self.inspection_id) + '.jpg'),
                                                                   cropped_image,
                                                                   'media/inspection/{}'.format(self.inspection_id))
-                    image_to_compare_path = self.saveImage_pattern(str('image_to_compare' + str(self.inspection_id) + '.jpg'),
-                                                           cropped_image,
-                                                           'media/inspection/{}'.format(self.inspection_id))
-                    InspectionModel.objects.filter(id=self.inspection_id).update(image_to_compare=image_to_compare_path)
+                    image_to_compare_path = self.saveImage_pattern(
+                        str('image_to_compare' + str(self.inspection_id) + '.jpg'),
+                        cropped_image,
+                        'media/inspection/{}'.format(self.inspection_id))
+                    InspectionModel.objects.filter(id=self.inspection_id).update(image_to_compare=image_to_compare_path,
+                                                                                 img_edges_b_rotation=img_edges_b_rotation_path,
+                                                                                 dilation_b_rotation=dilation_b_rotation_path,
+                                                                                 rotated_image=rotated_original_image_path,
+                                                                                 img_edges_a_rotation=img_edges_a_rotation_path,
+                                                                                 cropped_image=cropped_image_path,
+                                                                                 grey_cropped_image=grey_cropped_image_path,
+                                                                                 blurred_cropped_image=blur_cropped_image_path)
                     self.standard_image2 = Standard_image2_path
                     print('saved test image')
 
@@ -222,31 +225,37 @@ class Inspection:
 
         cv2.destroyAllWindows()
 
-
     def defectDetection(self, enhanced, frame):
         defects = DefectDetection(self.model_path, enhanced)
         thresholded_crop, dilation = defects.enhancement((3, 3))
         thresholded_crop_path = self.saveImage(str('binary_cropped' + str(self.inspection_id) + '.jpg'),
                                                thresholded_crop,
                                                'media/inspection/{}'.format(self.inspection_id))
+        cv2.imshow('binary_cropped', thresholded_crop)
         morphed_cropped = self.saveImage(str('morphed_cropped' + str(self.inspection_id) + '.jpg'),
                                          dilation,
                                          'media/inspection/{}'.format(self.inspection_id))
-
+        cv2.imshow('morphed_cropped', dilation)
         cropped_contours = frame.findContours(dilation, cv2.CHAIN_APPROX_SIMPLE)
         for region in cropped_contours:
             area = cv2.contourArea(region)
-            if area >= 35:
+            if area >= 30:
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
-                test_image = dilation[ya:ya + ha, xa:xa + wa]
+                test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
                 label = defects.predict_image(test_image)
-                cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
-                cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
-        cv2.imshow('defects', dilation)
-        cv2.imshow("original_cropped", enhanced)
+                if label == 'spot':
+                    if area <= 90:
+                        cv2.putText(enhanced, 'pinhole', (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                    else:
+                        cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                    cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
+                else:
+                    cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                    cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
+        cv2.imshow("Result", enhanced)
         result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
-                                             enhanced,
-                                             'media/inspection/{}'.format(self.inspection_id))
+                                     enhanced,
+                                     'media/inspection/{}'.format(self.inspection_id))
 
         cv2.waitKey(0)
 
@@ -262,7 +271,8 @@ class Inspection:
 
         cv2.imshow("difference", diff)
         cv2.waitKey(1)
-        binary, opening = pmm.binaryImage(75, (3, 3))
+        thresh = 60
+        binary, opening = pmm.binaryImage(thresh, (3, 3))
         thresholded_crop_path = self.saveImage(str('binary' + str(self.inspection_id) + '.jpg'),
                                                binary,
                                                'media/inspection/{}'.format(self.inspection_id))
@@ -276,8 +286,8 @@ class Inspection:
             cv2.rectangle(pmm.resizedB, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         result_path_final = self.saveImage(str('Result_final' + str(self.inspection_id) + '.jpg'),
-                                                   pmm.resizedB,
-                                                   'media/inspection/{}'.format(self.inspection_id))
+                                           pmm.resizedB,
+                                           'media/inspection/{}'.format(self.inspection_id))
         cv2.imshow("Original", pmm.resizedA)
         cv2.imshow("Modified", pmm.resizedB)
         cv2.imshow("Diff", diff)

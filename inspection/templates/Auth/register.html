@@ -107,24 +107,26 @@ License: You must have a valid license purchased only from themeforest(the above
 								<form class="kt-form" action="register" method="post" novalidate="novalidate" id="kt_login_form" method="post" enctype= multipart/form-data>
 									{% csrf_token %}
 									<div class="form-group">
-										<input class="form-control" type="text" placeholder="Username" name="names" autocomplete="off">
+										<input required class="form-control" type="text" placeholder="Username" name="names" autocomplete="off">
 									</div>
                                     <div class="form-group">
-										<input class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">
+										<input required class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">
 									</div>
 									<div class="form-group">
-										<input class="form-control" type="password" placeholder="Password" name="password" autocomplete="off">
+										<input required class="form-control" type="password" placeholder="Password" name="password" autocomplete="off">
 									</div>
 
                                     <div class="form-group">
-										<input class="form-control" type="number" placeholder="Mobile No." name="phone" autocomplete="off">
+										<input required class="form-control" type="number" placeholder="Mobile No." name="phone" autocomplete="off">
 									</div>
+
 									<div class="form-group">
-										<input class="form-control" type="file" placeholder="Image" name="image" autocomplete="off">
+										<p class="ml-3 mt-3 text-dark font-weight-bold">Profile Image</p>
+										<input required class="form-control" type="file" placeholder="Image" name="image" autocomplete="off">
 									</div>
 <!--                                    <div class="form-group">-->
 <!--                                        <label> <br>&nbsp;Profile Picture</label>-->
-<!--                                        <input class="form-control "  type="file" name="pic" ">-->
+<!--                                        <input required class="form-control "  type="file" name="pic" ">-->
 <!--                                    </div>-->
 
 									<!--begin::Action-->
@@ -133,7 +135,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											Forgot Password ?
 										</a>
 										<button id="" class="btn btn-primary btn-elevate kt-login__btn-primary">Sign In</button>
-<!--									<input type="submit" />-->
+<!--									<input required type="submit" />-->
 									</div>
 
 									<!--end::Action-->
@@ -185,26 +187,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- end:: Page -->
 
 		<!-- begin::Global Config(global config for global JS sciprts) -->
-		<script>
-			var KTAppOptions = {
-				"colors": {
-					"state": {
-						"brand": "#2c77f4",
-						"light": "#ffffff",
-						"dark": "#282a3c",
-						"primary": "#5867dd",
-						"success": "#34bfa3",
-						"info": "#36a3f7",
-						"warning": "#ffb822",
-						"danger": "#fd3995"
-					},
-					"base": {
-						"label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
-						"shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
-					}
-				}
-			};
-		</script>
+
 
 		<!-- end::Global Config -->
 

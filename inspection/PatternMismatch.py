@@ -33,10 +33,12 @@ class PatternMismatch:
         return self.diff
 
     def binaryImage(self, thresh_val, kernel):
+        print('thres',int(self.diff.max()))
         thresh = cv2.threshold(self.diff, thresh_val, 255, cv2.THRESH_BINARY)[1]
         kernel = np.ones(kernel, np.uint8)
-        self.opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-        return thresh, self.opening
+        # self.opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+        self.dilate = cv2.dilate(thresh, kernel, iterations=1)
+        return thresh, self.dilate
 
     def findContours(self, image):
         contours = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

@@ -16,10 +16,11 @@ class DefectDetection:
     def enhancement(self, kernel):
         thresholded_crop = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,
                                                  11, 2)
+        # ret, thresholded_crop = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
         self.binary_crop = thresholded_crop
         kernel_dilate = np.ones(kernel, np.uint8)
         # dilation = cv2.dilate(thresholded_crop, kernel_dilate, iterations=1)
-        dilation = cv2.morphologyEx(thresholded_crop, cv2.MORPH_OPEN, kernel)
+        dilation = cv2.morphologyEx(thresholded_crop, cv2.MORPH_OPEN, kernel_dilate)
         return thresholded_crop, dilation
 
     def predict_image(self, image):

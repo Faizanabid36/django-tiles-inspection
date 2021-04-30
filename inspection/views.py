@@ -1,12 +1,8 @@
-import os
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from inspection.models import EmployeeModel, InspectionModel
 
 from .algorithm import Inspection
-import logging
-import cv2
 
 
 # Create your views here. Business logics
@@ -16,6 +12,8 @@ def home(request):
 
 
 def start_inspection(request):
+    # if request.POST['type'] == '':
+    #     return redirect('/cong?message=invalid_data')
     emp = EmployeeModel.objects.get(id=request.session['user_id'])
 
     if request.method == 'POST':
@@ -35,14 +33,6 @@ def start_inspection(request):
                                 detail.type, request.session['inspection_id'])
         inspection.start_inspection()
 
-        # first function return
-        # first_frame, gray_frame, difference = inspection.start_inspection()
-        # second function return
-        # q,w,e,r,t,y=inspection.processing()
-        # InspectionModel.objects.filter(id=request.session['inspection_id']).update(first_frame=first)
-        # print(q,w,e)
-        # array = [{'First Frame': detail.first_frame, 'GreyFrame': detail.grey_frame,
-        #          'Difference': detail.difference}]
         debug = InspectionModel.objects.get(id=request.session['inspection_id'])
         if debug.type == 'defects_detection':
             debug_data = [
@@ -131,29 +121,7 @@ def step2(request):
 
 
 def step3(request):
-    # emp = Employee.objects.get(id=request.session['user_id'])
-    #
-    # inspection = inspect(emp=emp)
-    # inspection.save()
-    # html = ""
-    # html += "<html><body><ul>"
-    #
-    # request.session['inspection_id'] = inspection.id
-    # G=greyscal()
-    # path = G.grey_image(inspection.id)
-    # request.session['oo'] = path
-    #
-    # request.session['inspection_gray'] = inspection.grey
-    # request.session['inspection_diff'] = inspection.diff
-    # request.session['path'] = "{% static './media/profile_image/" + str(inspection.id) + "gs.jpg'%}"
-    # for key, value in request.session.items():
-    #     html += "<li>{} => {}</li>".format(key, value)
-    # html += "</ul><body/></html>"
-
     return HttpResponse()
-    # return "i was here"
-    # greyscal.grey_image()
-    # return render(request, 'Steps/configure.html', {"emp": Employee.objects.get(id=request.session['user_id'])})
 
 
 def cong(request):
@@ -162,27 +130,6 @@ def cong(request):
 
 
 def camera(request):
-    # user=employee
-    # data=user.objects.all()
-    # name=data.name()
-    # data = Employee.objects.filter(id(1))
-    # data
-    # data1 = Employee.objects.get(id=1)
-    # name=data1.name
-    # pic=str(data1.image)
-    # p=data.image()
-    # image = cv2.imread('./media/profile_image/564gs.jpg')
-    # filename="564"
-    # print(image)
-    # grey_s = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # cv2.imwrite("./media/profile_image/"+filename+"gs.jpg",grey_s)
-    # path='./media/profile_image/"+filename+"gs.jpg'
-    # path="./media/profile_image/"+filename+"gs.jpg"
-    # print(grey_s)
-
-    # ok=vals()
-
-    # context = {"emp": Employee.objects.get(id=request.session['user_id'])}
     context = {"Inspection": InspectionModel.objects.get(id=request.session['inspection_id']),
                "emp": EmployeeModel.objects.get(id=request.session['user_id'])}
     return render(request, 'steps/debugging.html', context)
@@ -190,6 +137,9 @@ def camera(request):
 
 def register(request):
     if request.method == 'POST':
+        if request.POST['names'] is None or request.POST['email'] is None or request.POST[
+            'password'] is None or request.FILES.get('image') is None or request.POST['phone'] is None:
+            return render(request, 'Auth/register.html')
         detail = EmployeeModel(
             name=request.POST['names'],
             email=request.POST['email'],
@@ -214,4 +164,5 @@ def sigin(request):
 
             return redirect('/cong')
         else:
-            return redirect('/check')  # validation if pass username is incorrect
+            return redirect('/')  # validation if pass username is incorrect
+    return redirect('/')
