@@ -49,17 +49,7 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        imgResp = urllib.urlopen('http://192.168.43.1:8080/video')
-
-        # Numpy to convert into a array
-        imgNp = np.array(bytearray(imgResp.read()), dtype=np.uint8)
-
-        # Finally decode the array to OpenCV usable format ;)
-        img = cv2.imdecode(imgNp, -1)
-
-        # put the image on screen
-        cv2.imshow('IPWebcam', img)
-        videocapture = cv2.VideoCapture("http://192.168.43.1:8080/video")
+        videocapture = cv2.VideoCapture("http://192.168.43.1:8080/onvif/device_service")
         print(videocapture.isOpened())
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
