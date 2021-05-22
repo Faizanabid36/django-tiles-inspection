@@ -17,6 +17,7 @@ def start_inspection(request):
     emp = EmployeeModel.objects.get(id=request.session['user_id'])
 
     if request.method == 'POST':
+        self.send_header("Content-type", "image/jpeg")
         if request.POST['radio2'] == 'yes':
             generate_report = True
         else:
