@@ -49,7 +49,7 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture("http://192.168.43.1:8080/video")
+        videocapture = cv2.VideoCapture("https://192.168.43.1:8080/video")
         print(videocapture.isOpened())
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
