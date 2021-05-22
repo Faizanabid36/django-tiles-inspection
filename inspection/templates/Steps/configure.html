@@ -267,7 +267,7 @@
 <script>
 	var video = document.querySelector("#videoElement");
 	console.log(navigator)
-if (navigator.mediaDevices.getUserMedia()) {
+if (navigator.mediaDevices.getUserMedia(audio: true, video: { width: 1280, height: 720 })) {
   navigator.mediaDevices.getUserMedia({ video: true })
     .then(function (stream) {
       video.srcObject = stream;
