@@ -48,7 +48,7 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture("rstp://192.168.43.1:8080/h264")
+        videocapture = cv2.VideoCapture("rstp://faizanabid36@gmail.com:IllIbIlli321...@192.168.43.1:8080/h264")
         print(videocapture.isOpened())
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
