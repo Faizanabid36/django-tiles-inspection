@@ -28,6 +28,11 @@
     <link href="{% static 'assets/plugins/global/plugins.bundle.css'%}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'assets/css/style.bundle.css'%}" rel="stylesheet" type="text/css"/>
     <link href="{% static 'assets/css/pages/wizard/wizard-1.css'%}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/plugins/global/plugins.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/style.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{%static 'assets/css/pages/invoices/invoice-1.css'%}" rel="stylesheet" type="text/css" />
+
 
     <!--end::Global Theme Styles -->
 
@@ -106,14 +111,14 @@
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a></li>
                         <br><br>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                            data-ktmenu-submenu-toggle="hover"><a href="cong" class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon flaticon-list"></i><span class="kt-menu__link-text"><h5><b>REPORT</b></h5></span><i
+                            data-ktmenu-submenu-toggle="hover"><a href="reportlist" class="kt-menu__link kt-menu__toggle"><i
+                                class="kt-menu__link-icon flaticon-list"></i><span class="kt-menu__link-text"><h5><b>REPORT LIST</b></h5></span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a></li>
                         <br><br>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                            data-ktmenu-submenu-toggle="hover"><a href="step3" class="kt-menu__link kt-menu__toggle"><i
+                            data-ktmenu-submenu-toggle="hover"><a href="report" class="kt-menu__link kt-menu__toggle"><i
                                 class="kt-menu__link-icon flaticon2-settings"></i><span
-                                class="kt-menu__link-text"><h5><b>EDIT PROFILE</b></h5></span><i
+                                class="kt-menu__link-text"><h5><b>REPORT FORMATE</b></h5></span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a></li>
                         <br><br>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
@@ -757,6 +762,10 @@
 <!--begin::Page Scripts(used by this page) -->
 <script src="{% static 'assets/js/pages/dashboard.js'%}" type="text/javascript"></script>
 <script src="{% static 'assets/js/pages/custom/wizard/wizard-1.js'%}" type="text/javascript"></script>
+<script src="{% static 'assets/plugins/global/plugins.bundle.js'%}" type="text/javascript"></script>
+<script src="{% static 'assets/js/scripts.bundle.js'%}" type="text/javascript"></script>
+<script src="{% static 'assets/plugins/custom/datatables/datatables.bundle.js'%}" type="text/javascript"></script>
+<script src="{% static 'assets/js/pages/crud/datatables/basic/paginations.js'%}" type="text/javascript"></script>
 
 <!--end::Page Scripts -->
 

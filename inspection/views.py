@@ -166,3 +166,10 @@ def sigin(request):
         else:
             return redirect('/')  # validation if pass username is incorrect
     return redirect('/')
+
+
+def reportlist(request):
+    return render(request, 'report/reportlist.html',{"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
+
+def report(request):
+    return render(request, 'report/report.html',{"emp": EmployeeModel.objects.get(id=request.session['user_id'])})

@@ -15,6 +15,8 @@ urlpatterns = [
     path('cong', views.cong, name='cong'),
     path('step3', views.step3, name='step3'),
     path('start_inspection', views.start_inspection, name='start_inspection'),
+    path('reportlist',views.reportlist,name='reportlist'),
+    path('report',views.report,name='report'),
 
 
 
