@@ -159,9 +159,7 @@ def sigin(request):
             data1 = EmployeeModel.objects.get(email=request.POST['email'])
             # data = serializers.serialize("json", Employee.objects.get(name=request.POST['names']))
             # request.session['name']=data1
-
             request.session['user_id'] = data1.id
-
             return redirect('/cong')
         else:
             return redirect('/')  # validation if pass username is incorrect

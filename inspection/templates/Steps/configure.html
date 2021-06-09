@@ -2,268 +2,272 @@
 {% block content%}
 
 
-
 <html lang="en">
 
-	<!-- begin::Head -->
-	{% load static %}
+<!-- begin::Head -->
+{% load static %}
 
-	<!-- end::Head -->
+<!-- end::Head -->
 
-	<!-- begin::Body -->
-	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-aside--enabled kt-aside--fixed kt-page--loading">
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-aside--enabled kt-aside--fixed kt-page--loading">
 
-		<!-- begin:: Page -->
+<!-- begin:: Page -->
 
-		<!-- begin:: Header Mobile -->
-
-
-		<!-- end:: Header Mobile -->
-		<div class="kt-grid kt-grid--hor kt-grid--root">
-			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
-
-				<!-- begin:: Aside -->
-				<button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
+<!-- begin:: Header Mobile -->
 
 
-				<!-- end:: Aside -->
-				<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+<!-- end:: Header Mobile -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 
-					<!-- begin:: Header -->
-
-
-					<!-- end:: Header -->
-					<div class="kt-content  kt-content--fit-top  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-
-						<!-- begin:: Content -->
-
-						<!-- begin:: hero -->
-						<div class="kt-sc-license" style="background-color:#282733; height:140px " >
-							<div class="kt-container ">
-								<div class="kt-sc__top">
-									<h3 class="kt-sc__title">
+        <!-- begin:: Aside -->
+        <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
 
 
+        <!-- end:: Aside -->
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
 
-									</h3>
-									<h1  style="color:white" align="middle" class="flaticon2-photo-camera"> <b>CAMERA PREVIEW</b></h1> <br><br>
-
-									<div class="kt-sc__nav">
-											<h4  style="color:white" align="middle" class="fas fa-bug"> Debugging Mode</h4>
-
-									</div>
-								</div>
-							</div>
-
-						</div>
-
-						<!-- end:: hero -->
-
-											<!--end: Form Wizard Nav -->
-
-						<div class="kt-negative-spacing--3" ></div><br>
-
-						<div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
-							<div class="kt-portlet kt-portlet--height-fluid">
-								<div class="kt-portlet__head kt-portlet__head--noborder" style="min-height:30px !important;">
-									<div class="kt-portlet__head-label">
-										<h3 class="kt-portlet__head-title">
-										</h3>
-									</div>
-
-								</div>
-								<div class="kt-portlet__body kt-portlet__body--fit-y kt-margin-b-40">
-
-									<!--begin::Widget -->
-                                                <h2  class="flaticon-list">
-													Steps 1:
-												</h2>
-									<div class="kt-portlet__head">
-											<div class="kt-portlet__head-label">
-
-												<h2 ><b> <li>GREY SCALE CONVERSION</li></b> </h2>
-<!--												<h2 ><b> <li>{{name}}</li></b> </h2>-->
+            <!-- begin:: Header -->
 
 
+            <!-- end:: Header -->
+            <div class="kt-content  kt-content--fit-top  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor"
+                 id="kt_content">
 
-											</div>
-											<div class="kt-portlet__head-toolbar">
+                <!-- begin:: Content -->
 
-
-											</div>
-										</div>
-									<h3></h3><br><br><br>
-
-
-									<div class="kt-widget kt-widget--user-profile-1">
-										<div class="kt-widget__head">
-											<div class="kt-widget__media">
-
-                                                {{data}}
-<!--												{{emp.image.url}}-->
-												<div id="" >
-	                                                 <video autoplay="true" id="videoElement"style="width:500px;">
-
-	                                                 </video>
-                                                           </div>
-												<img class="kt-widget__img kt-hidden-" src="{% static 'assets/media/project-logos/tile2.jpg'%}" alt="image" style="border:8px solid black" >
-<!--												<img class="kt-widget__img kt-hidden-" src="{% static 'assets/media/project-logos/tile2.jpg'%}" alt="image" style="border:8px solid black" >-->
-												<img class="kt-widget__img kt-hidden-" src="{% static 'edge.jpeg'%}" alt="image"style="margin-left:120px; border:8px solid black " >
-<!--												<img class="kt-widget__img kt-hidden" src="{% static 'assets/media/users/300_21.jpg'%}" alt="image" >-->
-
-												<div class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-hidden">
-
-												</div>
+                <!-- begin:: hero -->
+                <div class="kt-sc-license" style="background-color:#282733; height:140px ">
+                    <div class="kt-container ">
+                        <div class="kt-sc__top">
+                            <h3 class="kt-sc__title">
 
 
-											</div>
+                            </h3>
+                            <h1 style="color:white" align="middle" class="flaticon2-photo-camera"><b>CAMERA PREVIEW</b>
+                            </h1> <br><br>
 
-										</div>
+                            <div class="kt-sc__nav">
+                                <h4 style="color:white" align="middle" class="fas fa-bug"> Debugging Mode</h4>
 
-									</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- end:: hero -->
+
+                <!--end: Form Wizard Nav -->
+
+                <div class="kt-negative-spacing--3"></div>
+                <br>
+
+                <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__head kt-portlet__head--noborder" style="min-height:30px !important;">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                </h3>
+                            </div>
+
+                        </div>
+                        <div class="kt-portlet__body kt-portlet__body--fit-y kt-margin-b-40">
+
+                            <!--begin::Widget -->
+                            <h2 class="flaticon-list">
+                                Steps 1:
+                            </h2>
+                            <div class="kt-portlet__head">
+                                <div class="kt-portlet__head-label">
+
+                                    <h2><b>
+                                        <li>GREY SCALE CONVERSION</li>
+                                    </b></h2>
+                                    <!--												<h2 ><b> <li>{{name}}</li></b> </h2>-->
 
 
-							</div>
+                                </div>
+                                <div class="kt-portlet__head-toolbar">
 
-						</div>
+
+                                </div>
+                            </div>
+                            <h3></h3><br><br><br>
 
 
-						<!-- begin:: infobox -->
-						<div class="kt-grid__item " >
-							<div class="kt-container "style="background-color:lightblue;">
-								<div class="kt-portlet" style="background-color:lightblue;width:300px">
-									<div class="kt-widget4__title kt-widget4__title--light">
-												<i><span ><br><br></span></i>
-												<h2  class="flaticon-interface-11">
+                            <div class="kt-widget kt-widget--user-profile-1">
+                                <div class="kt-widget__head">
+                                    <div class="kt-widget__media">
 
-													LOGS
-													<hr style="color:blue" >
-												</h2><br>
+                                        {{data}}
+                                        <!--												{{emp.image.url}}-->
+                                        <div id="">
+                                            <video autoplay="true" id="videoElement" style="width:500px;">
 
-											</div>
-									<div class="kt-widget4">
-												<div class="kt-widget4__item">
+                                            </video>
+                                        </div>
+                                        <img class="kt-widget__img kt-hidden-"
+                                             src="{% static 'assets/media/project-logos/tile2.jpg'%}" alt="image"
+                                             style="border:8px solid black">
+                                        <!--												<img class="kt-widget__img kt-hidden-" src="{% static 'assets/media/project-logos/tile2.jpg'%}" alt="image" style="border:8px solid black" >-->
+                                        <img class="kt-widget__img kt-hidden-" src="{% static 'edge.jpeg'%}" alt="image"
+                                             style="margin-left:120px; border:8px solid black ">
+                                        <!--												<img class="kt-widget__img kt-hidden" src="{% static 'assets/media/users/300_21.jpg'%}" alt="image" >-->
+
+                                        <div class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-hidden">
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- begin:: infobox -->
+                    <div class="kt-grid__item ">
+                        <div class="kt-container " style="background-color:lightblue;">
+                            <div class="kt-portlet" style="background-color:lightblue;width:300px">
+                                <div class="kt-widget4__title kt-widget4__title--light">
+                                    <i><span><br><br></span></i>
+                                    <h2 class="flaticon-interface-11">
+
+                                        LOGS
+                                        <hr style="color:blue">
+                                    </h2>
+                                    <br>
+
+                                </div>
+                                <div class="kt-widget4">
+                                    <div class="kt-widget4__item">
 													<span class="kt-widget4__icon">
 														<i class="flaticon-pie-chart-1 kt-font-info"></i><br><br>
 													</span>
-													<a  class="kt-widget4__title kt-widget4__title--light">
-														<h3 ><u>Screen Type:</u></h3>
-														<h4 class="kt-widget4__title kt-widget4__title--light">Tiles inspection</h4>
-													</a>
+                                        <a class="kt-widget4__title kt-widget4__title--light">
+                                            <h3><u>Screen Type:</u></h3>
+                                            <h4 class="kt-widget4__title kt-widget4__title--light">Tiles inspection</h4>
+                                        </a>
 
 
-												</div>
-												<div class="kt-widget4__item">
+                                    </div>
+                                    <div class="kt-widget4__item">
 													<span class="kt-widget4__icon">
 														<i class="flaticon-safe-shield-protection  kt-font-success"></i>
 													</span>
-													<a href="#" class="kt-widget4__title kt-widget4__title--light">
-														<h3 ><u>Response code:</u></h3>
-														<h4 class="kt-widget4__title kt-widget4__title--light">200 OK.</h4>
-													</a>
+                                        <a href="#" class="kt-widget4__title kt-widget4__title--light">
+                                            <h3><u>Response code:</u></h3>
+                                            <h4 class="kt-widget4__title kt-widget4__title--light">200 OK.</h4>
+                                        </a>
 
-												</div>
-												<div class="kt-widget4__item">
+                                    </div>
+                                    <div class="kt-widget4__item">
 													<span class="kt-widget4__icon">
 														<i class="flaticon2-line-chart kt-font-danger"></i><br><br><br><br>
 													</span>
-													<a href="#" class="kt-widget4__title kt-widget4__title--light">
-														<h3 ><u>Response :</u></h3>
-														<h4 class="kt-widget4__title kt-widget4__title--light">Status: "OK" <br> URL: "https//10800.10102.10" <br> Body: "Edge detection"</h4>
-													</a>
+                                        <a href="#" class="kt-widget4__title kt-widget4__title--light">
+                                            <h3><u>Response :</u></h3>
+                                            <h4 class="kt-widget4__title kt-widget4__title--light">Status: "OK" <br>
+                                                URL: "https//10800.10102.10" <br> Body: "Edge detection"</h4>
+                                        </a>
 
-												</div>
-
-
-
-
-											</div>
-									<div class="kt-portlet__body" >
-										<div class="kt-infobox">
-											<div class="kt-infobox__body">
+                                    </div>
 
 
-												 <div class="row"style="background-color:black;" >
-								<div class="col-xl-25" style="background-color:black;" >
-
-									<!--begin:: Widgets/Last Updates-->
-
-									<!--end:: Widgets/Last Updates-->
-								</div>
-
-									<!--end::Widget -->
-								</div>
-												</div>
-											</div>
-										</div>
-<!--									<div class="kt-portlet kt-portlet&#45;&#45;height-fluid">-->
+                                </div>
+                                <div class="kt-portlet__body">
+                                    <div class="kt-infobox">
+                                        <div class="kt-infobox__body">
 
 
+                                            <div class="row" style="background-color:black;">
+                                                <div class="col-xl-25" style="background-color:black;">
 
-									<div class="kt-portlet__body" >
-										<div class="kt-infobox">
-											<div class="kt-infobox__body">
+                                                    <!--begin:: Widgets/Last Updates-->
 
+                                                    <!--end:: Widgets/Last Updates-->
+                                                </div>
 
-												 <div class="row"style="background-color:black;" >
-								<div class="col-xl-25" style="background-color:black;" >
-
-
-									<!--end:: Widgets/Last Updates-->
-								</div>
-
-									<!--end::Widget -->
-								</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- end:: infobox -->
-
-						<!-- begin:: iconbox -->
+                                                <!--end::Widget -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--									<div class="kt-portlet kt-portlet&#45;&#45;height-fluid">-->
 
 
-						<!-- end:: iconbox -->
-
-						<!-- end:: Content -->
-					</div>
-
-					<!-- begin:: Footer -->
-					<div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
-						<div class="kt-container  kt-container--fluid ">
-							<div class="kt-footer__copyright">
-								2019&nbsp;&copy;&nbsp;<a href="http://keenthemes.com/metronic" target="_blank" class="kt-link">Keenthemes</a>
-							</div>
-							<div class="kt-footer__menu">
-								<a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">About</a>
-								<a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Team</a>
-								<a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>
-							</div>
-						</div>
-					</div>
-
-					<!-- end:: Footer -->
-				</div>
-			</div>
-		</div>
-
-		<!-- end:: Page -->
-
-		<!-- begin::Quick Panel -->
+                                <div class="kt-portlet__body">
+                                    <div class="kt-infobox">
+                                        <div class="kt-infobox__body">
 
 
-		<!--ENd:: Chat-->
+                                            <div class="row" style="background-color:black;">
+                                                <div class="col-xl-25" style="background-color:black;">
 
 
-	</body>
+                                                    <!--end:: Widgets/Last Updates-->
+                                                </div>
+
+                                                <!--end::Widget -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end:: infobox -->
+
+                <!-- begin:: iconbox -->
+
+
+                <!-- end:: iconbox -->
+
+                <!-- end:: Content -->
+            </div>
+
+            <!-- begin:: Footer -->
+            <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+                <div class="kt-container  kt-container--fluid ">
+                    <div class="kt-footer__copyright">
+                        2019&nbsp;&copy;&nbsp;<a href="http://keenthemes.com/metronic" target="_blank" class="kt-link">Keenthemes</a>
+                    </div>
+                    <div class="kt-footer__menu">
+                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">About</a>
+                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Team</a>
+                        <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end:: Footer -->
+        </div>
+    </div>
+</div>
+
+<!-- end:: Page -->
+
+<!-- begin::Quick Panel -->
+
+
+<!--ENd:: Chat-->
+
+
+</body>
 <script>
 	var video = document.querySelector("#videoElement");
-
-if (navigator.mediaDevices.getUserMedia) {
+	console.log(navigator)
+if (navigator.mediaDevices.getUserMedia(audio: true, video: { width: 1280, height: 720 })) {
   navigator.mediaDevices.getUserMedia({ video: true })
     .then(function (stream) {
       video.srcObject = stream;
@@ -274,8 +278,11 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("Something went wrong!");
     });
 }
+
+
+
 </script>
-	<!-- end::Body -->
+<!-- end::Body -->
 
 
 {% endblock %}
