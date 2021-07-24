@@ -15,13 +15,13 @@ urlpatterns = [
     path('cong', views.cong, name='cong'),
     path('step3', views.step3, name='step3'),
     path('start_inspection', views.start_inspection, name='start_inspection'),
-<<<<<<< HEAD
+# <<<<<<< HEAD
     path('reportlist',views.reportlist,name='reportlist'),
-    path('report',views.report,name='report'),
-
-
-
-=======
->>>>>>> cdab76adbb6dd514e1f897f8651e89de5e9714b0
+    path('report',views.report,name='report')
 ]
+
+
+# =======
+# >>>>>>> cdab76adbb6dd514e1f897f8651e89de5e9714b0
+
 
