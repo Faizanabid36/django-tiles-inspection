@@ -9,6 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
+from inspection.gpio import lights
 import urllib
 
 
@@ -240,7 +241,6 @@ class Inspection:
         defectRatio = {}
         countvar = 0
         new = 0
-        trial=0
 
 
         defects = DefectDetection(self.model_path, enhanced)
@@ -250,7 +250,7 @@ class Inspection:
                                                'media/inspection/{}'.format(self.inspection_id))
         cv2.imshow('binary_cropped', thresholded_crop)
         originalunique, originalcounts = np.unique(thresholded_crop, return_counts=True)
-        print(originalunique,originalcounts)
+
         morphed_cropped = self.saveImage(str('morphed_cropped' + str(self.inspection_id) + '.jpg'),
                                          dilation,
                                          'media/inspection/{}'.format(self.inspection_id))
