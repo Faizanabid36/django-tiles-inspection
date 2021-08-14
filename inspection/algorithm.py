@@ -269,7 +269,6 @@ class Inspection:
         pmm.resizeImages((480, 480))
         pmm.grayImages()
         diff = pmm.subtractImages()
-
         cv2.imshow("difference", diff)
         cv2.waitKey(1)
         thresh = 60
