@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-from inspection.gpio import lights
+from gpio.Signalling import Signalling
 import urllib
 
 
@@ -242,7 +242,6 @@ class Inspection:
         countvar = 0
         new = 0
 
-
         defects = DefectDetection(self.model_path, enhanced)
         thresholded_crop, dilation = defects.enhancement((3, 3))
         thresholded_crop_path = self.saveImage(str('binary_cropped' + str(self.inspection_id) + '.jpg'),
@@ -260,31 +259,33 @@ class Inspection:
             area = cv2.contourArea(region)
             if area >= 30:
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
+                lights = Signalling()
+                lights.signals()
                 test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
                 Testuniq, TestCount = (np.unique(test_image, return_counts=True))
                 print("test image", Testuniq, TestCount)
                 countvar = originalcounts[1] - TestCount[1]
                 new = originalcounts[0] + countvar
-                trial= ((TestCount[1] / new) * 100)
+                trial = ((TestCount[1] / new) * 100)
 
-                str_trial=str(round(trial,2))
+                str_trial = str(round(trial, 2))
                 label = defects.predict_image(test_image)
 
                 if label[0] == 'spot':
-                    if area <= 100 and area >= 1:
+                    if 100 >= area >= 1:
                         #
                         pinhole += 1
-                        labels = "pinhole" + str(pinhole)+" "+str_trial+"%"
+                        labels = "pinhole" + str(pinhole) + " " + str_trial + "%"
 
                         cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
 
                     else:
                         spot += 1
-                        labels = "spot" + str(spot)+" "+str_trial+"%"
+                        labels = "spot" + str(spot) + " " + str_trial + "%"
                         cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 else:
                     crack += 1
-                    labels = "crack" + str(crack)+" "+str_trial+"%"
+                    labels = "crack" + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
                 # if label == 'spot':
