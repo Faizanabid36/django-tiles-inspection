@@ -232,7 +232,6 @@ class Inspection:
     def defectDetection(self, enhanced, frame):
         label = []
         lables = ""
-        defectRatio = {}
         crack = 0
         pinhole = 0
         spot = 0
@@ -259,8 +258,6 @@ class Inspection:
             area = cv2.contourArea(region)
             if area >= 30:
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
-                lights = Signalling()
-                lights.signals()
                 test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
                 Testuniq, TestCount = (np.unique(test_image, return_counts=True))
                 print("test image", Testuniq, TestCount)
@@ -288,15 +285,6 @@ class Inspection:
                     labels = "crack" + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
-                # if label == 'spot':
-                #     if area <= 90:
-                #         cv2.putText(enhanced, 'pinhole', (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
-                #     else:
-                #         cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
-                #     cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
-                # else:
-                #     cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
-                #     cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
         cv2.imshow("Result", enhanced)
         result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
                                      enhanced,
@@ -304,7 +292,9 @@ class Inspection:
         # countvar = originalcounts[1] - TestCount[1]
         # new = originalcounts[0] + countvar
         # defectRatio[labels] = ((TestCount[1] / new) * 100)
-
+        maxDefect = max(defectRatio)
+        lights = Signalling(maxDefect)
+        lights.signals()
         cv2.waitKey(0)
 
         InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,
