@@ -292,7 +292,7 @@ class Inspection:
         # countvar = originalcounts[1] - TestCount[1]
         # new = originalcounts[0] + countvar
         # defectRatio[labels] = ((TestCount[1] / new) * 100)
-        maxDefect = max(defectRatio)
+        maxDefect = max(defectRatio.values())
         lights = Signalling(maxDefect)
         lights.signals()
         cv2.waitKey(0)
