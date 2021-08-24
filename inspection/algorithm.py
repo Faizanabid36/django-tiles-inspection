@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-from gpio.Signalling import Signalling
+#from gpio.Signalling import Signalling
 import urllib
 
 
@@ -71,7 +71,8 @@ class Inspection:
             gray_frame_path = self.saveImage(str('gray_frame' + str(self.inspection_id) + '.jpg'), gray_frame,
                                              'media/inspection/{}'.format(self.inspection_id))
             difference = cv2.absdiff(first_gray, gray_frame)
-            _, difference = cv2.threshold(difference, 20, 255, cv2.THRESH_BINARY)
+            _, difference = cv2.threshold(
+                difference, 20, 255, cv2.THRESH_BINARY)
             cv2.imshow("Difference", difference)
             difference_path = self.saveImage(str('difference' + str(self.inspection_id) + '.jpg'), difference,
                                              'media/inspection/{}'.format(self.inspection_id))
@@ -118,18 +119,22 @@ class Inspection:
         if lines is not None:
             median_angle = rotation.rotation_angle(lines, frame_input)
 
-        rotated_original_image = scipy.ndimage.rotate(frame_input, median_angle, cval=0)
+        rotated_original_image = scipy.ndimage.rotate(
+            frame_input, median_angle, cval=0)
         rotated_original_image_path = self.saveImage(str('rotated_original_image' + str(self.inspection_id) + '.jpg'),
                                                      rotated_original_image,
                                                      'media/inspection/{}'.format(self.inspection_id))
-        rotated_binary_image = scipy.ndimage.rotate(difference, median_angle, cval=0)
+        rotated_binary_image = scipy.ndimage.rotate(
+            difference, median_angle, cval=0)
         cv2.imshow("rotated_original_image", rotated_original_image)
         cv2.waitKey(1)
-        img_edges_BINARY = cv2.Canny(rotated_binary_image, 100, 100, apertureSize=3)
+        img_edges_BINARY = cv2.Canny(
+            rotated_binary_image, 100, 100, apertureSize=3)
         img_edges_a_rotation_path = self.saveImage(str('img_edges_a_rotation' + str(self.inspection_id) + '.jpg'),
                                                    img_edges_BINARY,
                                                    'media/inspection/{}'.format(self.inspection_id))
-        contours = frame.findContours(img_edges_BINARY, cv2.CHAIN_APPROX_SIMPLE)
+        contours = frame.findContours(
+            img_edges_BINARY, cv2.CHAIN_APPROX_SIMPLE)
 
         if len(contours) > 0:
             Standard_image2_path = None
@@ -143,11 +148,13 @@ class Inspection:
                                                     cropped_image,
                                                     'media/inspection/{}'.format(self.inspection_id))
                 # cv2.imwrite("cropped_image.jpg", cropped_image)
-                grey_cropped_image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
+                grey_cropped_image = cv2.cvtColor(
+                    cropped_image, cv2.COLOR_BGR2GRAY)
                 grey_cropped_image_path = self.saveImage(str('grey_cropped_image' + str(self.inspection_id) + '.jpg'),
                                                          grey_cropped_image,
                                                          'media/inspection/{}'.format(self.inspection_id))
-                blur_cropped_image = cv2.GaussianBlur(grey_cropped_image, (7, 7), 0)
+                blur_cropped_image = cv2.GaussianBlur(
+                    grey_cropped_image, (7, 7), 0)
                 blur_cropped_image_path = self.saveImage(str('blur_cropped_image' + str(self.inspection_id) + '.jpg'),
                                                          blur_cropped_image,
                                                          'media/inspection/{}'.format(self.inspection_id))
@@ -175,7 +182,8 @@ class Inspection:
                     standard_image_path = self.saveImage(str('standard_image' + str(self.inspection_id) + '.jpg'),
                                                          cropped_image,
                                                          'media/inspection/{}'.format(self.inspection_id))
-                    InspectionModel.objects.filter(id=self.inspection_id).update(standard_image=standard_image_path)
+                    InspectionModel.objects.filter(id=self.inspection_id).update(
+                        standard_image=standard_image_path)
 
                     print('saved standard image')
                 #             Pattern Mismatch (v)
@@ -216,12 +224,11 @@ class Inspection:
                     elif self.inspection_type == 'pattern_mismatch':
                         if self.standard_image1 is not None and self.standard_image2 is not None:
 
-                            self.patternMismatch(self.standard_image1, self.standard_image2)
+                            self.patternMismatch(
+                                self.standard_image1, self.standard_image2)
 
                         else:
                             print("Give missing Image")
-
-
 
         else:
             median_angle = 0
@@ -247,19 +254,22 @@ class Inspection:
                                                thresholded_crop,
                                                'media/inspection/{}'.format(self.inspection_id))
         cv2.imshow('binary_cropped', thresholded_crop)
-        originalunique, originalcounts = np.unique(thresholded_crop, return_counts=True)
+        originalunique, originalcounts = np.unique(
+            thresholded_crop, return_counts=True)
 
         morphed_cropped = self.saveImage(str('morphed_cropped' + str(self.inspection_id) + '.jpg'),
                                          dilation,
                                          'media/inspection/{}'.format(self.inspection_id))
         cv2.imshow('morphed_cropped', dilation)
-        cropped_contours = frame.findContours(dilation, cv2.CHAIN_APPROX_SIMPLE)
+        cropped_contours = frame.findContours(
+            dilation, cv2.CHAIN_APPROX_SIMPLE)
         for region in cropped_contours:
             area = cv2.contourArea(region)
             if area >= 30:
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
                 test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
-                Testuniq, TestCount = (np.unique(test_image, return_counts=True))
+                Testuniq, TestCount = (
+                    np.unique(test_image, return_counts=True))
                 print("test image", Testuniq, TestCount)
                 countvar = originalcounts[1] - TestCount[1]
                 new = originalcounts[0] + countvar
@@ -272,18 +282,22 @@ class Inspection:
                     if 100 >= area >= 1:
                         #
                         pinhole += 1
-                        labels = "pinhole" + str(pinhole) + " " + str_trial + "%"
+                        labels = "pinhole" + \
+                            str(pinhole) + " " + str_trial + "%"
 
-                        cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+                        cv2.putText(enhanced, labels, (xa, ya - 10),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
 
                     else:
                         spot += 1
                         labels = "spot" + str(spot) + " " + str_trial + "%"
-                        cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                        cv2.putText(enhanced, labels, (xa, ya - 10),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 else:
                     crack += 1
                     labels = "crack" + str(crack) + " " + str_trial + "%"
-                    cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                    cv2.putText(enhanced, labels, (xa, ya - 10),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
         cv2.imshow("Result", enhanced)
         result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
@@ -293,8 +307,8 @@ class Inspection:
         # new = originalcounts[0] + countvar
         # defectRatio[labels] = ((TestCount[1] / new) * 100)
         maxDefect = max(defectRatio.values())
-        lights = Signalling(maxDefect)
-        lights.signals()
+#        lights = Signalling(maxDefect)
+  #      lights.signals()
         cv2.waitKey(0)
 
         InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,

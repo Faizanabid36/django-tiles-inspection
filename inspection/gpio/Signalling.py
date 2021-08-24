@@ -2,7 +2,7 @@ from gpiozero import LED
 
 
 class Signalling:
-
+    
     def __init__(self, threshold = 0.5):
         self.threshold = threshold
         self.red = LED(26)
