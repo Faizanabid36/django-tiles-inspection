@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from inspection.models import EmployeeModel, InspectionModel
-
+from inspection.models import EmployeeModel, InspectionModel, ReportModel, UserInspectionModel
 from .algorithm import Inspection
+from django.http import JsonResponse
+from django.db.models import Sum, Count
 
+# from django.utils import simplejson
+# from django.http import HttpResponse
 
 # Create your views here. Business logics
 
@@ -21,19 +24,21 @@ def start_inspection(request):
             generate_report = True
         else:
             generate_report = False
-
-        detail = InspectionModel(
+        userInspection = UserInspectionModel(
             user_id=emp,
             type=request.POST['type'],
             generate_report=generate_report
         )
-        detail.save()
-        request.session['inspection_id'] = detail.id
-        inspection = Inspection(r'inspection/svm.cpickle',
-                                detail.type, request.session['inspection_id'])
+        userInspection.save()
+
+        # request.session['inspection_id'] = detail.id
+        request.session['user_inspection_id'] = userInspection.id
+        inspection = Inspection(emp, r'inspection/svm.cpickle',
+                                userInspection.type, request.session['user_inspection_id'], request)
         inspection.start_inspection()
 
-        debug = InspectionModel.objects.get(id=request.session['inspection_id'])
+        # multiple, use filter for that
+        debug = InspectionModel.objects.get(id=request.session['user_inspection_id'])
         if debug.type == 'defects_detection':
             debug_data = [
                 {'step': 1, 'title': 'First Frame', 'frame': debug.initial_frame,
@@ -104,7 +109,6 @@ def start_inspection(request):
         context = {"Inspection": InspectionModel.objects.get(id=request.session['inspection_id']),
                    "emp": EmployeeModel.objects.get(id=request.session['user_id']),
                    "array": debug_data,
-
                    }
         return render(request, 'steps/debugging.html', context)
 
@@ -157,7 +161,7 @@ def sigin(request):
     if request.method == 'POST':
         if EmployeeModel.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
             data1 = EmployeeModel.objects.get(email=request.POST['email'])
-            # data = serializers.serialize("json", Employee.objects.get(name=request.POST['names']))
+            # data = serializers.s erialize("json", Employee.objects.get(name=request.POST['names']))
             # request.session['name']=data1
             request.session['user_id'] = data1.id
             return redirect('/cong')
@@ -167,7 +171,71 @@ def sigin(request):
 
 
 def reportlist(request):
-    return render(request, 'report/reportlist.html',{"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
+    li = {}
+    inspections=[]
+    from django.db.models import Sum, Count
+    item = UserInspectionModel.objects.all().values().distinct()
+    # for i in range(len(item)):
+    #     inspections.append(InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values().distinct())
+    #     li[inspections.user_inspection_id]=(inspections.values_list().aggregate(Sum('cracks')))
+    # inspections = InspectionModel.objects.values().distinct()
+    # ins = inspections.values_list('id', flat=True).distinct()
+    from django.db.models import Sum, Count
+
+    # li.append(inspections.values_list().aggregate(Sum('cracks')))
+    # li.append(inspections.values_list().aggregate(Sum('pinhole')))
+    # li.append(inspections.values_list().aggregate(Sum('spot')))
+    # li.append(inspections.values_list().aggregate(Sum('number_of_defects')))
+    # li.append(inspections.values_list().aggregate(Count('id')))
+
+
+    # li.append(Cracknum)
+    # li.append(Pinholenum)
+    # li.append(spotnum)
+    # li.append(totalnumdef)
+    # li.append(totalnum)
+    # li = list(set(li))
+
+    # report= ReportModel.objects.filter(id=20).values()
+    # result = InspectionModel.objects.filter(user_inspection_id=item[0]['id'], status=0).count()
+    return render(request, 'report/reportlist.html', {"reportlist": inspections, "list": li})
+
 
 def report(request):
-    return render(request, 'report/report.html',{"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
+    item = UserInspectionModel.objects.filter(id=20).values()
+    inspections = InspectionModel.objects.filter(user_inspection_id=item[0]['id']).values()
+    # report = ReportModel.objects.filter(id=20).values()
+    return render(request, 'report/report.html', {"report": inspections, "inspection": item})
+
+
+def test(request):
+    # inspection_items = UserInspectionModel.objects.all().values().order_by('-id')
+    # item = inspection_items[1]
+    import json
+    from django.core import serializers
+    from django.forms.models import model_to_dict
+    from pprint import pprint
+    inspections={}
+    li=[]
+    item = UserInspectionModel.objects.all().values().distinct()
+    # for i in range(len(item)):
+    #
+    #     inspections.append(InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values().distinct())
+    # li=list(inspections)
+
+
+    pprint(inspections)
+    # li[inspections.user_inspection_id] = (inspections.values_list().aggregate(Sum('cracks')))
+
+
+    # ins = inspections.values_list('id', flat=True).distinct()
+    # inspection_items=serializers.serialize('json', InspectionModel.objects.all())
+    # return JsonResponse(json.dumps(item), safe=False)
+    from django.core.serializers import serialize
+    # data = serializers.serialize('json', item)
+    # return HttpResponse(list(item), content_type='application/json')
+    # return JsonResponse({"test": list(inspections)})
+
+    return JsonResponse([list(item),list(inspections)], safe=False)
+
+    # return request.json(item)

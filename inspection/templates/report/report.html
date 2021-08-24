@@ -2,183 +2,187 @@
 {% block content%}
 <html lang="en">
 
-	<!-- begin::Head -->
+<!-- begin::Head -->
 
 
-	<!-- end::Head -->
+<!-- end::Head -->
 
-	<!-- begin::Body -->
-	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
+<!-- begin::Body -->
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading">
 
-		<!-- begin:: Page -->
+<!-- begin:: Page -->
 
-		<!-- begin:: Header Mobile -->
-		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
-			<div class="kt-header-mobile__logo">
-				<a href="index.html">
-					<img alt="Logo" src="assets/media/logos/logo-12.png" />
-				</a>
-			</div>
-			<div class="kt-header-mobile__toolbar">
-				<button class="kt-header-mobile__toolbar-toggler kt-header-mobile__toolbar-toggler--left" id="kt_aside_mobile_toggler"><span></span></button>
-				<button class="kt-header-mobile__toolbar-toggler" id="kt_header_mobile_toggler"><span></span></button>
-				<button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler"><i class="flaticon-more"></i></button>
-			</div>
-		</div>
+<!-- begin:: Header Mobile -->
+<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
+    <div class="kt-header-mobile__logo">
+        <a href="index.html">
+            <img alt="Logo"/>
+        </a>
+    </div>
+    <div class="kt-header-mobile__toolbar">
+        <button class="kt-header-mobile__toolbar-toggler kt-header-mobile__toolbar-toggler--left"
+                id="kt_aside_mobile_toggler"><span></span></button>
+        <button class="kt-header-mobile__toolbar-toggler" id="kt_header_mobile_toggler"><span></span></button>
+        <button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler"><i
+                class="flaticon-more"></i></button>
+    </div>
+</div>
 
-		<!-- end:: Header Mobile -->
-		<div class="kt-grid kt-grid--hor kt-grid--root">
-			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
-
-
-				<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
-
-					<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-
-						<!-- begin:: Subheader -->
+<!-- end:: Header Mobile -->
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 
 
-						<!-- end:: Subheader -->
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
 
-						<!-- begin:: Content -->
-						<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-							<div class="kt-portlet">
-								<div class="kt-portlet__body kt-portlet__body--fit">
-									<div class="kt-invoice-1">
-										{% load static %}
-										<div class="kt-invoice__head" style="background-image: url({% static 'assets/media/bg/bg-6.jpg'%});">
-											<div class="kt-invoice__container">
-												<div class="kt-invoice__brand">
-													<h1 class="kt-invoice__title">REPORT</h1>
-													<div href="#" class="kt-invoice__logo">
-														<a href="#"><img src="{%static 'assets/media/company-logos/logo_client_white.png'%}	"></a>
-														<span class="kt-invoice__desc">
+            <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+                <!-- begin:: Subheader -->
+
+
+                <!-- end:: Subheader -->
+
+                <!-- begin:: Content -->
+                <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__body kt-portlet__body--fit">
+                            <div class="kt-invoice-1">
+                                {% load static %}
+                                <div class="kt-invoice__head"
+                                     style="background-image: url({% static 'assets/media/bg/bg-6.jpg'%});">
+                                    <div class="kt-invoice__container">
+                                        <div class="kt-invoice__brand">
+                                            <h1 class="kt-invoice__title">REPORT</h1>
+                                            <div href="#" class="kt-invoice__logo">
+                                                <a href="#"><img
+                                                        src="{%static 'assets/media/company-logos/logo_client_white.png'%}	"></a>
+                                                <span class="kt-invoice__desc">
 															<span>Cecilia Chapman, 711-2880 Nulla St, Mankato</span>
 															<span>Mississippi 96522</span>
 														</span>
-													</div>
-												</div>
-												<div class="kt-invoice__items">
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__subtitle">DATA</span>
-														<span class="kt-invoice__text">Dec 12, 2017</span>
-													</div>
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__subtitle">INVOICE NO.</span>
-														<span class="kt-invoice__text">GS 000014</span>
-													</div>
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__subtitle">INVOICE TO.</span>
-														<span class="kt-invoice__text">Iris Watson, P.O. Box 283 8562 Fusce RD.<br>Fredrick Nebraska 20620</span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="kt-invoice__body">
-											<div class="kt-invoice__container">
-												<div class="table-responsive">
-													<table class="table">
-														<thead>
-															<tr>
-																<th>DESCRIPTION</th>
-																<th>HOURS</th>
-																<th>RATE</th>
-																<th>AMOUNT</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>Creative Design</td>
-																<td>80</td>
-																<td>$40.00</td>
-																<td>$3200.00</td>
-															</tr>
-															<tr>
-																<td>Front-End Development</td>
-																<td>120</td>
-																<td>$40.00</td>
-																<td>$4800.00</td>
-															</tr>
-															<tr>
-																<td>Back-End Development</td>
-																<td>210</td>
-																<td>$60.00</td>
-																<td>$12600.00</td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-										<div class="kt-invoice__footer">
-											<div class="kt-invoice__container">
-												<div class="kt-invoice__bank">
-													<div class="kt-invoice__title">BANK TRANSFER</div>
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__label">Account Name:</span>
-														<span class="kt-invoice__value">Barclays UK</span></span>
-													</div>
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__label">Account Number:</span>
-														<span class="kt-invoice__value">1234567890934</span></span>
-													</div>
-													<div class="kt-invoice__item">
-														<span class="kt-invoice__label">Code:</span>
-														<span class="kt-invoice__value">BARC0032UK</span></span>
-													</div>
-												</div>
-												<div class="kt-invoice__total">
-													<span class="kt-invoice__title">TOTAL AMOUNT</span>
-													<span class="kt-invoice__price">$20.600.00</span>
-													<span class="kt-invoice__notice">Taxes Included</span>
-												</div>
-											</div>
-										</div>
-										<div class="kt-invoice__actions">
-											<div class="kt-invoice__container">
-												<button type="button" class="btn btn-label-brand btn-bold" onclick="window.print();">Download Invoice</button>
-												<button type="button" class="btn btn-brand btn-bold" onclick="window.print();">Print Invoice</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-invoice__items">
+                                            <div class="kt-invoice__item">
+                                                <span class="kt-invoice__subtitle">DATA</span>
+                                                <span class="kt-invoice__text">Dec 12, 2017</span>
+                                            </div>
+                                            <div class="kt-invoice__item">
+                                                <span class="kt-invoice__subtitle">REPORT NO.</span>
+                                                <span class="kt-invoice__text"> {{report.user_inspection_id}}</span>
+                                            </div>
+                                            <div class="kt-invoice__item">
+                                                <span class="kt-invoice__subtitle">REPORT GENERATED.</span>
+                                                <span class="kt-invoice__text">....<br>...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{report.user_inspection_id}}
 
-						<!-- end:: Content -->
-					</div>
+                                <div class="kt-invoice__body">
+                                    <div class="kt-invoice__container">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>{{report.id}}</tr>
+                                                <tr>
+                                                    <th>REPORT ID</th>
+                                                    <th>CRACKS</th>
+                                                    <th>SPOTS</th>
+                                                    <th>PINHOLE</th>
+                                                    <th>NUMBER DEFECTED TILES</th>
+                                                    <th>DEFECT RATIO</th>
+                                                    <th>IMAGE OF TILE</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for rep in report %}
+                                                <tr>
+                                                    <td>{{rep.id}}</td>
+                                                    <td>{{rep.cracks}}</td>
+                                                    <td>{{rep.spot}}</td>
+                                                    <td>{{rep.pinhole}}</td>
+                                                    <td>{{rep.number_of_defects}}</td>
+                                                    <td>{{rep.defect_ratio}}</td>
+                                                    <td><img src="{{rep.defected_image}}" alt="defected image" width="100" height="100"> </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-invoice__footer">
+                                    <div class="kt-invoice__container">
+                                        <div class="kt-invoice__bank">
+                                            <div class="kt-invoice__title">DEFECT STATS</div>
+                                            <div class="kt-invoice__item">
+                                                <span class="kt-invoice__label">NUMBER OF INSPECTIONS:</span>
+                                                <span class="kt-invoice__value">500</span></span>
+                                            </div>
+                                            <div class="kt-invoice__item">
+                                                <span class="kt-invoice__label">BLAH :</span>
+                                                <span class="kt-invoice__value">1234567890934</span></span>
+                                            </div>
 
-					<!-- begin:: Footer -->
+                                        </div>
+                                        <div class="kt-invoice__total">
+                                            <span class="kt-invoice__title">TOTAL DEFECTED TILES</span>
+                                            <span class="kt-invoice__price">20600</span>
+                                            <span class="kt-invoice__notice">severe and moderate defects</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-invoice__actions">
+                                    <div class="kt-invoice__container">
+                                        <button type="button" class="btn btn-label-brand btn-bold"
+                                                onclick="window.print();">Download Report
+                                        </button>
+                                        <button type="button" class="btn btn-brand btn-bold" onclick="window.print();">
+                                            Print Report
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					<!-- end:: Footer -->
-				</div>
-			</div>
-		</div>
+                <!-- end:: Content -->
+            </div>
 
-		<!-- end:: Page -->
+            <!-- begin:: Footer -->
 
-		<!-- begin::Quick Panel -->
+            <!-- end:: Footer -->
+        </div>
+    </div>
+</div>
 
+<!-- end:: Page -->
 
-		<!-- end::Quick Panel -->
-
-		<!-- begin::Scrolltop -->
-		<div id="kt_scrolltop" class="kt-scrolltop">
-			<i class="fa fa-arrow-up"></i>
-		</div>
-
-		<!-- end::Scrolltop -->
+<!-- begin::Quick Panel -->
 
 
-		<!-- end::Demo Panel -->
+<!-- end::Quick Panel -->
 
-		<!--Begin:: Chat-->
+<!-- begin::Scrolltop -->
+<div id="kt_scrolltop" class="kt-scrolltop">
+    <i class="fa fa-arrow-up"></i>
+</div>
+
+<!-- end::Scrolltop -->
 
 
-		<!--ENd:: Chat-->
+<!-- end::Demo Panel -->
 
-		<!-- begin::Global Config(global config for global JS sciprts) -->
-		<script>
+<!--Begin:: Chat-->
+
+
+<!--ENd:: Chat-->
+
+<!-- begin::Global Config(global config for global JS sciprts) -->
+<script>
 			var KTAppOptions = {
 				"colors": {
 					"state": {
@@ -197,9 +201,10 @@
 					}
 				}
 			};
-		</script>
 
-	</body>
+</script>
 
-	<!-- end::Body -->
+</body>
+
+<!-- end::Body -->
 {% endblock %}
