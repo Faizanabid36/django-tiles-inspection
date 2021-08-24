@@ -1,7 +1,7 @@
 .kt-invoice-1 .kt-invoice__container {
   width: 100%;
   margin: 0;
-  padding: 0 30px; }
+  padding: 0 0; }
 
 .kt-invoice-1 .kt-invoice__head {
   background-size: cover;
@@ -85,7 +85,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex-wrap: wrap; }
+    flex-wrap: wrap;
+      column-gap: 80px;}
   .kt-invoice-1 .kt-invoice__footer .kt-invoice__bank {
     margin-right: 10px;
     display: flex;
@@ -137,7 +138,7 @@
     flex-direction: row;
     justify-content: space-between; }
 
-@media (min-width: 1025px) {
+@media (min-width: 1080px) {
   .kt-invoice-1 .kt-invoice__container {
     width: 80%;
     margin: 0 auto; } }
@@ -148,7 +149,7 @@
     margin: 0;
     padding: 0 20px; }
   .kt-invoice-1 .kt-invoice__head {
-    padding: 20px 0; }
+    padding: 10px 0; }
     .kt-invoice-1 .kt-invoice__head .kt-invoice__brand {
       display: flex;
       flex-direction: column; }
@@ -165,13 +166,13 @@
     .kt-invoice-1 .kt-invoice__head .kt-invoice__items {
       margin-top: 20px; }
   .kt-invoice-1 .kt-invoice__body {
-    padding: 2rem 0; }
+    padding: 1rem 0; }
   .kt-invoice-1 .kt-invoice__footer {
-    padding: 2rem 0; }
+    padding: 1rem 0; }
     .kt-invoice-1 .kt-invoice__footer .kt-invoice__container {
       flex-direction: column; }
     .kt-invoice-1 .kt-invoice__footer .kt-invoice__bank .kt-invoice__item .kt-invoice__label {
-      margin-right: 20px; }
+      margin-right: 10px; }
     .kt-invoice-1 .kt-invoice__footer .kt-invoice__total {
       margin-top: 30px;
       text-align: left; } }
@@ -198,5 +199,5 @@
     display: none !important; }
   .kt-invoice-1 .kt-invoice__container {
     width: 100%;
-    padding: 0 10px; } }
+    padding: 0 1px; } }
 

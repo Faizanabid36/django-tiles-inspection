@@ -3,13 +3,13 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 import cv2
 import scipy.ndimage
-from inspection.models import EmployeeModel, InspectionModel
+from inspection.models import EmployeeModel, InspectionModel, ReportModel
 from .Rotation import Rotation
 from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-from gpio.Signalling import Signalling
+# from gpio.Signalling import Signalling
 import urllib
 
 
@@ -26,13 +26,15 @@ class FileStorage(FileSystemStorage):
 
 class Inspection:
 
-    def __init__(self, model_path, inspection_type, inspection_id):
+    def __init__(self, emp, model_path, inspection_type, inspection_id,request):
         self.model_path = model_path
         self.inspection_id = inspection_id
         self.inspection_type = inspection_type
         self.host = 'http://127.0.0.1:8000/'
         self.standard_image1 = None
         self.standard_image2 = None
+        self.emp = emp
+        self.request = request
 
     def saveImage(self, name, image, path):
         ret, buff = cv2.imencode('.jpg', image)
@@ -51,8 +53,7 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture(1)
-        print(videocapture.isOpened())
+        videocapture = cv2.VideoCapture(0)
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
         initial_image.cvtGray()
@@ -60,8 +61,20 @@ class Inspection:
 
         initial_frame_path = self.saveImage('first_Frame' + str(self.inspection_id) + '.jpg', first_frame,
                                             'media/inspection/{}'.format(self.inspection_id))
+        detail = InspectionModel(
+            user_id=self.emp,
+            user_inspection_id=self.inspection_id,
+        )
+        detail.save()
+        self.inspection_id = detail.id
+        InspectionModel.objects.filter(id=self.inspection_id).update(initial_frame=initial_frame_path,
+                                                                     # frame=frame_path,
+                                                                     # grey_frame=gray_frame_path,
+                                                                     # difference=difference_path,
+                                                                     )
 
         while videocapture.isOpened():
+
             _, frame_input = videocapture.read()
             frame = Image(frame_input)
             frame_path = self.saveImage(str('Frame' + str(self.inspection_id) + '.jpg'), frame.image,
@@ -81,17 +94,10 @@ class Inspection:
             if key == 27:
                 break
             elif key == 115:
-                # cv2.imwrite("Difference.jpg", difference)
                 self.processing(frame_input, difference, frame)
 
         cv2.destroyAllWindows()
         videocapture.release()
-
-        InspectionModel.objects.filter(id=self.inspection_id).update(initial_frame=initial_frame_path,
-                                                                     frame=frame_path,
-                                                                     grey_frame=gray_frame_path,
-                                                                     difference=difference_path,
-                                                                     )
 
     def processing(self, frame_input, difference, frame):
         median_angle = 0
@@ -230,7 +236,7 @@ class Inspection:
         cv2.destroyAllWindows()
 
     def defectDetection(self, enhanced, frame):
-        label = []
+        totalDefects = {}
         lables = ""
         defectRatio = {}
         crack = 0
@@ -240,7 +246,7 @@ class Inspection:
         count = []
         defectRatio = {}
         countvar = 0
-        new = 0
+        totalDefectNumber = 0
 
         defects = DefectDetection(self.model_path, enhanced)
         thresholded_crop, dilation = defects.enhancement((3, 3))
@@ -259,8 +265,8 @@ class Inspection:
             area = cv2.contourArea(region)
             if area >= 30:
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
-                lights = Signalling()
-                lights.signals()
+                # lights = Signalling()
+                # lights.signals()
                 test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
                 Testuniq, TestCount = (np.unique(test_image, return_counts=True))
                 print("test image", Testuniq, TestCount)
@@ -288,6 +294,7 @@ class Inspection:
                     labels = "crack" + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
+
                 # if label == 'spot':
                 #     if area <= 90:
                 #         cv2.putText(enhanced, 'pinhole', (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
@@ -307,10 +314,25 @@ class Inspection:
 
         cv2.waitKey(0)
 
+        totalDefects["cracks"] = crack
+        totalDefects["spots"] = spot
+        totalDefects["pinhole"] = pinhole
+        totalDefectNumber = sum(totalDefects.values())
         InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,
                                                                      morphed_cropped=morphed_cropped,
-                                                                     defected_image=result_path)
-        print("defect ratio", defectRatio)
+                                                                     defected_image=result_path,
+                                                                     cracks=totalDefects["cracks"],
+                                                                     pinhole=totalDefects["pinhole"],
+                                                                     spot=totalDefects["spots"],
+                                                                     is_completed=True,
+                                                                     number_of_defects=totalDefectNumber,
+                                                                     defect_ratio=defectRatio)
+        detail = InspectionModel(
+            user_id=self.emp,
+            user_inspection_id=self.request.session['user_inspection_id'],
+        )
+        detail.save()
+        self.inspection_id = detail.id
 
     def patternMismatch(self, imageA, imageB):
         pmm = PatternMismatch(imageA, imageB)

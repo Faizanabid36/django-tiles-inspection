@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'inspection',
+    'django-tiles-inspection'
 
 ]
 
