@@ -3,10 +3,8 @@
 
 	<!-- begin::Head -->
 	<head>
-		<base href="../../../">
 		<meta charset="utf-8" />
-		<title>Metronic | Login Page 1</title>
-		<meta name="description" content="Login page example">
+		<title>Login</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 		<!--begin::Fonts -->
@@ -84,9 +82,11 @@
 								<div class="kt-login__title">
 									<h3>Sign In</h3>
 								</div>
-
+								{% if request.session.message %}
+								<p class="alert alert-danger">{{ request.session.message }}</p>
+								{% endif %}
 								<!--begin::Form-->
-								<form class="kt-form" action="sigin" novalidate="novalidate" id="kt_login_form" method="post">
+								<form class="kt-form" action="signin" novalidate="novalidate" id="kt_login_form" method="post">
 									{% csrf_token %}
 									<div class="form-group">
 										<input class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">

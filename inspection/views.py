@@ -112,31 +112,12 @@ def start_inspection(request):
                    }
         return render(request, 'steps/debugging.html', context)
 
-        # return render(request, 'main-content.html')
-
-
-def check(request):
-    return render(request, 'Auth/login-1.html')
-
-
-def step2(request):
-    # greyscal.grey_image(2)
-    return render(request, 'Steps/configure.html', {"emp": EmployeeModel.objects.get(id=request.session['user_id'])}, )
-
-
-def step3(request):
-    return HttpResponse()
 
 
 def cong(request):
     return render(request, 'Steps/Configure_tiles.html',
                   {"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
 
-
-def camera(request):
-    context = {"Inspection": InspectionModel.objects.get(id=request.session['inspection_id']),
-               "emp": EmployeeModel.objects.get(id=request.session['user_id'])}
-    return render(request, 'steps/debugging.html', context)
 
 
 def register(request):
@@ -162,15 +143,19 @@ def register(request):
         return render(request, 'Auth/register.html')
 
 
-def sigin(request):
+def signin(request):
+    if request.session['user_id']:
+        return redirect('/dashboard')
+    request.session['message'] = ''
     if request.method == 'POST':
         if EmployeeModel.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
             data1 = EmployeeModel.objects.get(email=request.POST['email'])
             request.session['user_id'] = data1.id
             return redirect('/cong')
         else:
-            return redirect('/')  # validation if pass username is incorrect
-    return redirect('/')
+            request.session['message'] = 'Given Credentials do no match our records'
+            return render(request, 'Auth/login-1.html')  # validation if pass username is incorrect
+    return render(request, 'Auth/login-1.html')
 
 
 def reportlist(request):
