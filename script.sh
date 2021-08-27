@@ -2,13 +2,18 @@
 
 echo "Enter message to commit:"
 read commitName
-git add .
+
 echo "Staging files"
-git commit -m "$commitName"
+git add .
+
 echo "Committing Files.."
-git pull origin master
+git commit -m "$commitName"
+
 echo "Pulling from master branch"
-git push origin master
+git pull origin master
+
 echo "Pushing to master branch"
+git push origin master
+
 echo "Done. Press Any Button"
 read
