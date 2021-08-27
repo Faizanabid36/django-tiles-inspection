@@ -52,60 +52,6 @@
                                     REPORT LIST
                                 </h3>
                             </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-wrapper">
-                                    <div class="kt-portlet__head-actions">
-                                        <div class="dropdown dropdown-inline">
-                                            <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="la la-download"></i> Export
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="kt-nav">
-                                                    <li class="kt-nav__section kt-nav__section--first">
-                                                        <span class="kt-nav__section-text">Choose an option</span>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-print"></i>
-                                                            <span class="kt-nav__link-text">Print</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-copy"></i>
-                                                            <span class="kt-nav__link-text">Copy</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-file-excel-o"></i>
-                                                            <span class="kt-nav__link-text">Excel</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-file-text-o"></i>
-                                                            <span class="kt-nav__link-text">CSV</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-file-pdf-o"></i>
-                                                            <span class="kt-nav__link-text">PDF</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        &nbsp;
-                                        <a href="#" class="btn btn-brand btn-elevate btn-icon-sm">
-                                            <i class="la la-plus"></i>
-                                            New Record
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="kt-portlet__body">
 
@@ -115,7 +61,6 @@
                                 <thead>
                                 <tr>
                                     <th>Inspection ID</th>
-                                    <th>Report ID</th>
                                     <th>Inspection Type</th>
                                     <th>Number of Tiles Tested</th>
                                     <th>Total Number of Defects</th>
@@ -128,22 +73,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                 {% for repls in reportlist %}
-                                     {% ifchanged repls.user_inspection_id%}
+                                 {% for item in reportlist %}
                                 <tr>
-                                    <td>{{repls.user_inspection_id}}</td>
-                                    <td>61715-075</td>
-                                    <td>{{repls.type}}</td>
-                                    <td>{{list.4.id__count}}</td>
-                                    <td>{{list.3.number_of_defects__sum}}</td>
-                                    <td>{{list.0.cracks__sum}}</td>
-                                    <td>{{list.1.pinhole__sum}}</td>
-                                    <td>{{list.2.spot__sum}}</td>
-
-                                    <td><button class="la la-download">more</button></td>
-
+                                    <td>{{item.6.inspection_id}}</td>
+                                    <td>{{item.5.inspection_type}}</td>
+                                    <td>{{item.4.images_inspected}}</td>
+                                    <td>{{item.3.number_of_defects__sum}}</td>
+                                    <td>{{item.0.cracks__sum}}</td>
+                                    <td>{{item.1.pinhole__sum}}</td>
+                                    <td>{{item.2.spot__sum}}</td>
+                                    <td><button class="btn btn-danger la la-eye">View</button></td>
                                 </tr>
-                                {% endifchanged %}
                                 {% endfor %}
                                 </tbody>
                             </table>

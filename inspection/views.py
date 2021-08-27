@@ -15,13 +15,12 @@ def home(request):
 
 
 def start_inspection(request):
-    # if request.POST['type'] == '':
-    #     return redirect('/cong?message=invalid_data')
     emp = EmployeeModel.objects.get(id=request.session['user_id'])
 
     if request.method == 'POST':
         if request.POST['radio2'] == 'yes':
             generate_report = True
+
         else:
             generate_report = False
         userInspection = UserInspectionModel(
@@ -161,8 +160,6 @@ def sigin(request):
     if request.method == 'POST':
         if EmployeeModel.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
             data1 = EmployeeModel.objects.get(email=request.POST['email'])
-            # data = serializers.s erialize("json", Employee.objects.get(name=request.POST['names']))
-            # request.session['name']=data1
             request.session['user_id'] = data1.id
             return redirect('/cong')
         else:
@@ -171,33 +168,21 @@ def sigin(request):
 
 
 def reportlist(request):
-    li = {}
+    li = []
     inspections=[]
     from django.db.models import Sum, Count
     item = UserInspectionModel.objects.all().values().distinct()
-    # for i in range(len(item)):
-    #     inspections.append(InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values().distinct())
-    #     li[inspections.user_inspection_id]=(inspections.values_list().aggregate(Sum('cracks')))
-    # inspections = InspectionModel.objects.values().distinct()
-    # ins = inspections.values_list('id', flat=True).distinct()
-    from django.db.models import Sum, Count
-
-    # li.append(inspections.values_list().aggregate(Sum('cracks')))
-    # li.append(inspections.values_list().aggregate(Sum('pinhole')))
-    # li.append(inspections.values_list().aggregate(Sum('spot')))
-    # li.append(inspections.values_list().aggregate(Sum('number_of_defects')))
-    # li.append(inspections.values_list().aggregate(Count('id')))
-
-
-    # li.append(Cracknum)
-    # li.append(Pinholenum)
-    # li.append(spotnum)
-    # li.append(totalnumdef)
-    # li.append(totalnum)
-    # li = list(set(li))
-
-    # report= ReportModel.objects.filter(id=20).values()
-    # result = InspectionModel.objects.filter(user_inspection_id=item[0]['id'], status=0).count()
+    for i in range(len(item)):
+        li=[]
+        inspection = InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values()
+        li.append(inspection.values_list().aggregate(Sum('cracks')))
+        li.append(inspection.values_list().aggregate(Sum('pinhole')))
+        li.append(inspection.values_list().aggregate(Sum('spot')))
+        li.append(inspection.values_list().aggregate(Sum('number_of_defects')))
+        li.append({'images_inspected':inspection.values_list().count()})
+        li.append({'inspection_type':item[i]['type'].capitalize().replace("_", " ")})
+        li.append({'inspection_id':'INSPECT-'+str(item[i]['id'])})
+        inspections.append(li)
     return render(request, 'report/reportlist.html', {"reportlist": inspections, "list": li})
 
 
