@@ -112,9 +112,11 @@ def start_inspection(request):
                    }
         return render(request, 'steps/debugging.html', context)
 
+def logout(request):
+    request.session.flush()
+    return redirect('/signin')
 
-
-def cong(request):
+def configuration(request):
     return render(request, 'Steps/Configure_tiles.html',
                   {"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
 
@@ -144,14 +146,14 @@ def register(request):
 
 
 def signin(request):
-    if request.session['user_id']:
+    if 'user_id' in request.session:
         return redirect('/dashboard')
     request.session['message'] = ''
     if request.method == 'POST':
         if EmployeeModel.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
             data1 = EmployeeModel.objects.get(email=request.POST['email'])
             request.session['user_id'] = data1.id
-            return redirect('/cong')
+            return redirect('/dashboard')
         else:
             request.session['message'] = 'Given Credentials do no match our records'
             return render(request, 'Auth/login-1.html')  # validation if pass username is incorrect
