@@ -1,0 +1,11 @@
+media/inspection/*
+inspection/migrations/__pycache__/*
+inspection/__pycache__/*
+venv
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
