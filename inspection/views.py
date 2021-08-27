@@ -4,6 +4,7 @@ from inspection.models import EmployeeModel, InspectionModel, ReportModel, UserI
 from .algorithm import Inspection
 from django.http import JsonResponse
 from django.db.models import Sum, Count
+from django.template import RequestContext
 
 # from django.utils import simplejson
 # from django.http import HttpResponse
@@ -139,6 +140,7 @@ def camera(request):
 
 
 def register(request):
+    request.session['message'] = ''
     if request.method == 'POST':
         if request.POST['names'] is None or request.POST['email'] is None or request.POST[
             'password'] is None or request.FILES.get('image') is None or request.POST['phone'] is None:
