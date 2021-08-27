@@ -143,6 +143,10 @@ def register(request):
         if request.POST['names'] is None or request.POST['email'] is None or request.POST[
             'password'] is None or request.FILES.get('image') is None or request.POST['phone'] is None:
             return render(request, 'Auth/register.html')
+        user = EmployeeModel.objects.get(email=request.POST['email'])
+        if user:
+            request.session['message'] = 'Email already exists'
+            return render(request, 'Auth/register.html')
         detail = EmployeeModel(
             name=request.POST['names'],
             email=request.POST['email'],
