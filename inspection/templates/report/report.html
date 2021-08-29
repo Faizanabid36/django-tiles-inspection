@@ -15,7 +15,7 @@
 <!-- begin:: Header Mobile -->
 <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
     <div class="kt-header-mobile__logo">
-        <a href="index.html">
+        <a href="#">
             <img alt="Logo"/>
         </a>
     </div>
@@ -57,9 +57,9 @@
                                                 <a href="#"><img
                                                         src="{%static 'assets/media/company-logos/logo_client_white.png'%}	"></a>
                                                 <span class="kt-invoice__desc">
-															<span>Cecilia Chapman, 711-2880 Nulla St, Mankato</span>
-															<span>Mississippi 96522</span>
-														</span>
+                                                    <span>Cecilia Chapman, 711-2880 Nulla St, Mankato</span>
+                                                    <span>Mississippi 96522</span>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="kt-invoice__items">
@@ -69,7 +69,7 @@
                                             </div>
                                             <div class="kt-invoice__item">
                                                 <span class="kt-invoice__subtitle">REPORT NO.</span>
-                                                <span class="kt-invoice__text"> {{report.user_inspection_id}}</span>
+                                                <span class="kt-invoice__text"> INSPECT-{{inspection.id}}</span>
                                             </div>
                                             <div class="kt-invoice__item">
                                                 <span class="kt-invoice__subtitle">REPORT GENERATED.</span>
@@ -91,7 +91,7 @@
                                                     <th>CRACKS</th>
                                                     <th>SPOTS</th>
                                                     <th>PINHOLE</th>
-                                                    <th>NUMBER DEFECTED TILES</th>
+                                                    <th>DEFECTS</th>
                                                     <th>DEFECT RATIO</th>
                                                     <th>IMAGE OF TILE</th>
                                                 </tr>
@@ -104,8 +104,8 @@
                                                     <td>{{rep.spot}}</td>
                                                     <td>{{rep.pinhole}}</td>
                                                     <td>{{rep.number_of_defects}}</td>
-                                                    <td>{{rep.defect_ratio}}</td>
-                                                    <td><img src="{{rep.defected_image}}" alt="defected image" width="100" height="100"> </td>
+                                                    <td>{{rep.avg_defects}}</td>
+                                                    <td><img src="{{rep.defected_image}}" alt="defected image" width="175" height="100"> </td>
                                                 </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -118,8 +118,8 @@
                                         <div class="kt-invoice__bank">
                                             <div class="kt-invoice__title">DEFECT STATS</div>
                                             <div class="kt-invoice__item">
-                                                <span class="kt-invoice__label">NUMBER OF INSPECTIONS:</span>
-                                                <span class="kt-invoice__value">500</span></span>
+                                                <span class="kt-invoice__label">NUMBER OF IMAGES INSPECTED:</span>
+                                                <span class="kt-invoice__value">{{ report|length}}</span></span>
                                             </div>
                                             <div class="kt-invoice__item">
                                                 <span class="kt-invoice__label">BLAH :</span>
@@ -129,7 +129,7 @@
                                         </div>
                                         <div class="kt-invoice__total">
                                             <span class="kt-invoice__title">TOTAL DEFECTED TILES</span>
-                                            <span class="kt-invoice__price">20600</span>
+                                            <span class="kt-invoice__price">{{total_defects}}</span>
                                             <span class="kt-invoice__notice">severe and moderate defects</span>
                                         </div>
                                     </div>

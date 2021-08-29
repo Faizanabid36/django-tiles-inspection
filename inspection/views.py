@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Avg
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from inspection.models import EmployeeModel, InspectionModel, ReportModel, UserInspectionModel
@@ -5,6 +6,7 @@ from .algorithm import Inspection
 from django.http import JsonResponse
 from django.db.models import Sum, Count
 from django.template import RequestContext
+import json,statistics
 
 # from django.utils import simplejson
 # from django.http import HttpResponse
@@ -12,8 +14,9 @@ from django.template import RequestContext
 # Create your views here. Business logics
 
 def home(request):
-    return render(request, 'main-content.html', {"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
-
+    if 'user_id' in request.session:
+        return render(request, 'main-content.html', {"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
+    return redirect('/signin')
 
 def start_inspection(request):
     emp = EmployeeModel.objects.get(id=request.session['user_id'])
@@ -179,11 +182,16 @@ def reportlist(request):
     return render(request, 'report/reportlist.html', {"reportlist": inspections, "list": li})
 
 
-def report(request):
-    item = UserInspectionModel.objects.filter(id=20).values()
-    inspections = InspectionModel.objects.filter(user_inspection_id=item[0]['id']).values()
-    # report = ReportModel.objects.filter(id=20).values()
-    return render(request, 'report/report.html', {"report": inspections, "inspection": item})
+def report(request, inspection_id):
+    item = UserInspectionModel.objects.get(id=inspection_id)
+    inspections = InspectionModel.objects.filter(user_inspection_id=item.id,is_completed=True).values()
+    total_defects = 0
+    for i in range(len(inspections)):
+        ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
+        inspections[i]['avg_defects'] = round(statistics.stdev(json.loads(ratio).values()),2)
+        total_defects+=inspections[i]['number_of_defects']
+    # return JsonResponse([list(inspections)], safe=False)
+    return render(request, 'report/report.html', {"report": inspections, "inspection": item,"total_defects":total_defects})
 
 
 def test(request):

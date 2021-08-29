@@ -11,6 +11,7 @@ urlpatterns = [
     path('configuration', views.configuration, name='cong'),
     path('start_inspection', views.start_inspection, name='start_inspection'),
     path('reportlist', views.reportlist, name='reportlist'),
+    path('inspection/<int:inspection_id>/report', views.report, name='inspection_report'),
     path('report', views.report, name='report'),
     path('test',views.test,name="test"),
     path("logout", views.logout, name="logout")

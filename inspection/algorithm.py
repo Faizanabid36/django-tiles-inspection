@@ -321,10 +321,9 @@ class Inspection:
         result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
                                      enhanced,
                                      'media/inspection/{}'.format(self.inspection_id))
-        # countvar = originalcounts[1] - TestCount[1]
-        # new = originalcounts[0] + countvar
-        # defectRatio[labels] = ((TestCount[1] / new) * 100)
-        maxDefect = max(defectRatio.values())
+        maxDefect = 0
+        if defectRatio.values():
+            maxDefect = max(defectRatio.values())
 #        lights = Signalling(maxDefect)
   #      lights.signals()
         cv2.waitKey(0)
