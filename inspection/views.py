@@ -188,10 +188,19 @@ def report(request, inspection_id):
     total_defects = 0
     for i in range(len(inspections)):
         ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
+        #trying to calculate average on print so check prints
+    
+        sums=Sum(json.loads(ratio).values())
+        count=Count(json.loads(ratio).values())
+        average=sums/count
+        print("sums",sums)
+        # print("count",count[i])
+        print("average",average)
+        # ratiosum=Sum(ratio.values())
         inspections[i]['avg_defects'] = round(statistics.stdev(json.loads(ratio).values()),2)
         total_defects+=inspections[i]['number_of_defects']
     # return JsonResponse([list(inspections)], safe=False)
-    return render(request, 'report/report.html', {"report": inspections, "inspection": item,"total_defects":total_defects})
+    return render(request, 'report/report.html', {"report": inspections, "inspection": item,"ratio":ratio,"total_defects":total_defects})
 
 
 def test(request):
