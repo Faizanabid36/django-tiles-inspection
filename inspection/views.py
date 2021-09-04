@@ -39,81 +39,8 @@ def start_inspection(request):
         inspection = Inspection(emp, r'inspection/svm.cpickle',
                                 userInspection.type, request.session['user_inspection_id'], request)
         inspection.start_inspection()
+        return redirect('inspection/'+ str(request.session['user_inspection_id'])+'/report')
 
-        # multiple, use filter for that
-        debug = InspectionModel.objects.get(id=request.session['user_inspection_id'])
-        if debug.type == 'defects_detection':
-            debug_data = [
-                {'step': 1, 'title': 'First Frame', 'frame': debug.initial_frame,
-                 'status': 200 if debug.initial_frame != 'null' else 404},
-                {'step': 2, 'title': 'Frame', 'frame': debug.frame, 'status': 200 if debug.frame != 'null' else 404},
-                {'step': 3, 'title': 'Grey Frame', 'frame': debug.grey_frame,
-                 'status': 200 if debug.grey_frame != 'null' else 404},
-                {'step': 4, 'title': 'Difference', 'frame': debug.difference,
-                 'status': 200 if debug.difference != 'null' else 404},
-                {'step': 5, 'title': 'Edged Image', 'frame': debug.img_edges_b_rotation,
-                 'status': 200 if debug.img_edges_b_rotation != 'null' else 404},
-                {'step': 6, 'title': 'Dilated Image', 'frame': debug.dilation_b_rotation,
-                 'status': 200 if debug.dilation_b_rotation != 'null' else 404},
-                {'step': 7, 'title': 'Rotated Image', 'frame': debug.rotated_image,
-                 'status': 200 if debug.rotated_image != 'null' else 404},
-                {'step': 8, 'title': 'Edged Image', 'frame': debug.img_edges_a_rotation,
-                 'status': 200 if debug.img_edges_a_rotation != 'null' else 404},
-                {'step': 9, 'title': 'Cropped Image', 'frame': debug.cropped_image,
-                 'status': 200 if debug.cropped_image != 'null' else 404},
-                {'step': 10, 'title': 'Grey Cropped', 'frame': debug.grey_cropped_image,
-                 'status': 200 if debug.grey_cropped_image != 'null' else 404},
-                {'step': 11, 'title': 'Blur Cropped', 'frame': debug.blurred_cropped_image,
-                 'status': 200 if debug.blurred_cropped_image != 'null' else 404},
-                {'step': 12, 'title': 'Enhanced Image', 'frame': debug.enhanced_image,
-                 'status': 200 if debug.enhanced_image != 'null' else 404},
-                {'step': 13, 'title': 'Binary Cropped', 'frame': debug.binary_cropped,
-                 'status': 200 if debug.binary_cropped != 'null' else 404},
-                {'step': 14, 'title': 'Morphed Cropped', 'frame': debug.morphed_cropped,
-                 'status': 200 if debug.morphed_cropped != 'null' else 404},
-                {'step': 15, 'title': 'Output', 'frame': debug.defected_image,
-                 'status': 200 if debug.defected_image != 'null' else 404},
-            ]
-        else:
-            debug_data = [
-                {'step': 1, 'title': 'First Frame', 'frame': debug.initial_frame,
-                 'status': 200 if debug.initial_frame != 'null' else 404},
-                {'step': 2, 'title': 'Frame', 'frame': debug.frame, 'status': 200 if debug.frame != 'null' else 404},
-                {'step': 3, 'title': 'Grey Frame', 'frame': debug.grey_frame,
-                 'status': 200 if debug.grey_frame != 'null' else 404},
-                {'step': 4, 'title': 'Difference', 'frame': debug.difference,
-                 'status': 200 if debug.difference != 'null' else 404},
-                {'step': 5, 'title': 'Edged Image', 'frame': debug.img_edges_b_rotation,
-                 'status': 200 if debug.img_edges_b_rotation != 'null' else 404},
-                {'step': 6, 'title': 'Dilated Image', 'frame': debug.dilation_b_rotation,
-                 'status': 200 if debug.dilation_b_rotation != 'null' else 404},
-                {'step': 7, 'title': 'Rotated Image', 'frame': debug.rotated_image,
-                 'status': 200 if debug.rotated_image != 'null' else 404},
-                {'step': 8, 'title': 'Edged Image', 'frame': debug.img_edges_a_rotation,
-                 'status': 200 if debug.img_edges_a_rotation != 'null' else 404},
-                {'step': 9, 'title': 'Cropped Image', 'frame': debug.cropped_image,
-                 'status': 200 if debug.cropped_image != 'null' else 404},
-                {'step': 10, 'title': 'Grey Cropped', 'frame': debug.grey_cropped_image,
-                 'status': 200 if debug.grey_cropped_image != 'null' else 404},
-                {'step': 11, 'title': 'Blur Cropped', 'frame': debug.blurred_cropped_image,
-                 'status': 200 if debug.blurred_cropped_image != 'null' else 404},
-                {'step': 12, 'title': 'Standard Image', 'frame': debug.standard_image,
-                 'status': 200 if debug.standard_image != 'null' else 404},
-                {'step': 13, 'title': 'Image to Compare', 'frame': debug.image_to_compare,
-                 'status': 200 if debug.image_to_compare != 'null' else 404},
-                {'step': 14, 'title': 'Binary Image', 'frame': debug.binary_cropped,
-                 'status': 200 if debug.binary_cropped != 'null' else 404},
-                {'step': 15, 'title': 'Morphed Cropped', 'frame': debug.morphed_cropped,
-                 'status': 200 if debug.morphed_cropped != 'null' else 404},
-                {'step': 16, 'title': 'Output', 'frame': debug.defected_image,
-                 'status': 200 if debug.defected_image != 'null' else 404},
-            ]
-
-        context = {"Inspection": InspectionModel.objects.get(id=request.session['inspection_id']),
-                   "emp": EmployeeModel.objects.get(id=request.session['user_id']),
-                   "array": debug_data,
-                   }
-        return render(request, 'steps/debugging.html', context)
 
 def logout(request):
     request.session.flush()
@@ -131,8 +58,8 @@ def register(request):
         if request.POST['names'] is None or request.POST['email'] is None or request.POST[
             'password'] is None or request.FILES.get('image') is None or request.POST['phone'] is None:
             return render(request, 'Auth/register.html')
-        user = EmployeeModel.objects.get(email=request.POST['email'])
-        if user:
+        user = EmployeeModel.objects.filter(email=request.POST['email'])
+        if len(user):
             request.session['message'] = 'Email already exists'
             return render(request, 'Auth/register.html')
         detail = EmployeeModel(
@@ -189,7 +116,6 @@ def report(request, inspection_id):
     for i in range(len(inspections)):
         ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
         #trying to calculate average on print so check prints
-    
         sums=Sum(json.loads(ratio).values())
         count=Count(json.loads(ratio).values())
         average=sums/count
