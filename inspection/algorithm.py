@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 import cv2
 import scipy.ndimage
-from inspection.models import EmployeeModel, InspectionModel, ReportModel
+from inspection.models import EmployeeModel, InspectionModel, ReportModel, UserInspectionModel
 from .Rotation import Rotation
 from .Image import Image
 from .PatternMismatch import PatternMismatch
@@ -112,7 +112,6 @@ class Inspection:
                                                   dilation,
                                                   'media/inspection/{}'.format(self.inspection_id))
         rotation = Rotation()
-        cv2.imshow("img_edges", dilation)
 
         max_line = rotation.get_max_line(dilation, 50)
 
@@ -346,6 +345,7 @@ class Inspection:
             user_inspection_id=self.request.session['user_inspection_id'],
         )
         detail.save()
+        UserInspectionModel.objects.filter(id = self.request.session['user_inspection_id']).update(is_completed = True)
         self.inspection_id = detail.id
 
     def patternMismatch(self, imageA, imageB):

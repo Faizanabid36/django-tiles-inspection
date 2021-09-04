@@ -94,7 +94,7 @@ def reportlist(request):
     li = []
     inspections=[]
     from django.db.models import Sum, Count
-    item = UserInspectionModel.objects.all().values().distinct()
+    item = UserInspectionModel.objects.filter(is_completed = True).values().distinct()
     for i in range(len(item)):
         li=[]
         inspection = InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values()
