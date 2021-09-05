@@ -377,7 +377,7 @@ class Inspection:
         cv2.destroyAllWindows()
 
         InspectionModel.objects.filter(id=self.inspection_id).update(
-            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final)
+            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final,is_completed=True)
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.request.session['user_inspection_id'],

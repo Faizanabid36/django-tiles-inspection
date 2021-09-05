@@ -95,7 +95,7 @@ def reportlist(request):
     item = UserInspectionModel.objects.filter(is_completed = True).values().distinct()
     for i in range(len(item)):
         li=[]
-        inspection = InspectionModel.objects.filter(user_inspection_id=item[i]['id']).values()
+        inspection = InspectionModel.objects.filter(user_inspection_id=item[i]['id'],is_completed = True).values()
         li.append(inspection.values_list().aggregate(Sum('cracks')))
         li.append(inspection.values_list().aggregate(Sum('pinhole')))
         li.append(inspection.values_list().aggregate(Sum('spot')))
@@ -114,14 +114,14 @@ def report(request, inspection_id):
     inspections = InspectionModel.objects.filter(user_inspection_id=item.id,is_completed = True).values()
     ratio  = total_defects = 0
     for i in range(len(inspections)):
-        ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
-        #trying to calculate average on print so check prints
-        sums=Sum(json.loads(ratio).values())
-        # return HttpResponse(json.loads(ratio).values())
-        count=Count(json.loads(ratio).values())
-        average=sums/count
-        # ratiosum=Sum(json.loads(ratio).values())
-        inspections[i]['avg_defects'] = average
+        if inspections[i]['type'] == 'pattern_mismatch':
+            ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
+            #trying to calculate average on print so check prints
+            sums=Sum(json.loads(ratio).values())
+            count=Count(json.loads(ratio).values())
+            average=sums/count
+            # ratiosum=Sum(json.loads(ratio).values())
+        inspections[i]['avg_defects'] = 0
         total_defects+=inspections[i]['number_of_defects']
     # return JsonResponse([list(item)], safe=False)
     return render(request, 'report/report.html', {"report": inspections, "inspection": item,"ratio":ratio,"total_defects":total_defects})
