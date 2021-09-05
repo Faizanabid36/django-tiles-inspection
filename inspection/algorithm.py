@@ -83,8 +83,7 @@ class Inspection:
             _, difference = cv2.threshold(
                 difference, 20, 255, cv2.THRESH_BINARY)
             cv2.imshow("Difference", difference)
-            difference_path = self.saveImage(str('difference' + str(self.inspection_id) + '.jpg'), difference,
-                                             'media/inspection/{}'.format(self.inspection_id))
+            difference_path = self.saveImage(str('difference' + str(self.inspection_id) + '.jpg'), difference,'media/inspection/{}'.format(self.inspection_id))
 
             key = cv2.waitKey(1)
             # esc
