@@ -82,7 +82,7 @@
                                     <td>{{item.0.cracks__sum}}</td>
                                     <td>{{item.1.pinhole__sum}}</td>
                                     <td>{{item.2.spot__sum}}</td>
-                                    <td><button class="btn btn-danger la la-eye" onclick="location.href='inspection/{{forloop.counter}}/report'">View</button></td>
+                                    <td><button class="btn btn-danger la la-eye" onclick="location.href='inspection/{{item.7.user_inspection_id}}/report'">View</button></td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

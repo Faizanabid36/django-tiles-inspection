@@ -71,7 +71,6 @@ class UserInspectionModel(models.Model):
     # inspection_id=models.ForeignKey(InspectionModel, on_delete=models.CASCADE)
     generate_report = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
-    # report_id = models.ForeignKey(ReportModel, on_delete=models.CASCADE, default='null')
 
     def __str__(self):
         return self.type

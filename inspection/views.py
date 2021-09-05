@@ -105,7 +105,9 @@ def reportlist(request):
         li.append({'images_inspected':inspection.values_list().count()})
         li.append({'inspection_type':item[i]['type'].capitalize().replace("_", " ")})
         li.append({'inspection_id':'INSPECT-'+str(item[i]['id'])})
+        li.append({'user_inspection_id': item[i]['id']})
         inspections.append(li)
+    # return JsonResponse([list(inspections)], safe=False)
     return render(request, 'report/reportlist.html', {"reportlist": inspections, "list": li})
 
 
@@ -120,12 +122,11 @@ def report(request, inspection_id):
         count=Count(json.loads(ratio).values())
         average=sums/count
         print("sums",sums)
-        # print("count",count[i])
         print("average",average)
         # ratiosum=Sum(ratio.values())
         inspections[i]['avg_defects'] = round(statistics.stdev(json.loads(ratio).values()),2)
         total_defects+=inspections[i]['number_of_defects']
-    # return JsonResponse([list(inspections)], safe=False)
+    # return JsonResponse([list(item)], safe=False)
     return render(request, 'report/report.html', {"report": inspections, "inspection": item,"ratio":ratio,"total_defects":total_defects})
 
 

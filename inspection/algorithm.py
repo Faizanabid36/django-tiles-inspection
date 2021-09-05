@@ -67,11 +67,7 @@ class Inspection:
         )
         detail.save()
         self.inspection_id = detail.id
-        InspectionModel.objects.filter(id=self.inspection_id).update(initial_frame=initial_frame_path,
-                                                                     # frame=frame_path,
-                                                                     # grey_frame=gray_frame_path,
-                                                                     # difference=difference_path,
-                                                                     )
+        InspectionModel.objects.filter(id=self.inspection_id).update(initial_frame=initial_frame_path)
 
         while videocapture.isOpened():
 
@@ -277,7 +273,6 @@ class Inspection:
                 test_image = dilation[ya:(ya + ha), xa:(xa + wa)]
                 Testuniq, TestCount = (
                     np.unique(test_image, return_counts=True))
-                print("test image", Testuniq, TestCount)
                 countvar = originalcounts[1] - TestCount[1]
                 new = originalcounts[0] + countvar
                 trial = ((TestCount[1] / new) * 100)
@@ -287,7 +282,6 @@ class Inspection:
 
                 if label[0] == 'spot':
                     if 100 >= area >= 1:
-                        #
                         pinhole += 1
                         labels = "pinhole" + \
                             str(pinhole) + " " + str_trial + "%"
