@@ -84,7 +84,7 @@ def signin(request):
             return redirect('/dashboard')
         else:
             request.session['message'] = 'Given Credentials do no match our records'
-            return render(request, 'Auth/login-1.html')  # validation if pass username is incorrect
+            return render(request, 'Auth/login-1.html')
     return render(request, 'Auth/login-1.html')
 
 
@@ -110,8 +110,8 @@ def reportlist(request):
 
 
 def report(request, inspection_id):
-    item = UserInspectionModel.objects.get(id=inspection_id)
-    inspections = InspectionModel.objects.filter(user_inspection_id=item.id).values()
+    item = UserInspectionModel.objects.get(id=inspection_id, is_completed = True)
+    inspections = InspectionModel.objects.filter(user_inspection_id=item.id,is_completed = True).values()
     ratio  = total_defects = 0
     for i in range(len(inspections)):
         ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
