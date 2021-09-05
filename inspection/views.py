@@ -33,8 +33,6 @@ def start_inspection(request):
             generate_report=generate_report
         )
         userInspection.save()
-
-        # request.session['inspection_id'] = detail.id
         request.session['user_inspection_id'] = userInspection.id
         inspection = Inspection(emp, r'inspection/svm.cpickle',
                                 userInspection.type, request.session['user_inspection_id'], request)
@@ -114,19 +112,17 @@ def reportlist(request):
 def report(request, inspection_id):
     item = UserInspectionModel.objects.get(id=inspection_id)
     inspections = InspectionModel.objects.filter(user_inspection_id=item.id,is_completed=True).values()
-    total_defects = 0
+    ratio = total_defects = 0
     for i in range(len(inspections)):
         ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
         #trying to calculate average on print so check prints
         sums=Sum(json.loads(ratio).values())
         count=Count(json.loads(ratio).values())
         average=sums/count
-        print("sums",sums)
-        print("average",average)
         # ratiosum=Sum(ratio.values())
         inspections[i]['avg_defects'] = round(statistics.stdev(json.loads(ratio).values()),2)
         total_defects+=inspections[i]['number_of_defects']
-    # return JsonResponse([list(item)], safe=False)
+    return HttpResponse(item)
     return render(request, 'report/report.html', {"report": inspections, "inspection": item,"ratio":ratio,"total_defects":total_defects})
 
 

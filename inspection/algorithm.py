@@ -134,8 +134,7 @@ class Inspection:
         img_edges_a_rotation_path = self.saveImage(str('img_edges_a_rotation' + str(self.inspection_id) + '.jpg'),
                                                    img_edges_BINARY,
                                                    'media/inspection/{}'.format(self.inspection_id))
-        contours = frame.findContours(
-            img_edges_BINARY, cv2.CHAIN_APPROX_SIMPLE)
+        contours = frame.findContours(img_edges_BINARY, cv2.CHAIN_APPROX_SIMPLE)
 
         if len(contours) > 0:
             Standard_image2_path = None
@@ -374,8 +373,11 @@ class Inspection:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-        InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,
-
-                                                                     morphed_cropped=morphed_cropped,
-
-                                                                     defected_image=result_path_final)
+        InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,morphed_cropped=morphed_cropped,defected_image=result_path_final)
+        detail = InspectionModel(
+            user_id=self.emp,
+            user_inspection_id=self.request.session['user_inspection_id'],
+        )
+        detail.save()
+        UserInspectionModel.objects.filter(id = self.request.session['user_inspection_id']).update(is_completed = True)
+        self.inspection_id = detail.id
