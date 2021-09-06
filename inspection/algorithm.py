@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-from Signalling import Signalling
+# from .Signalling import Signalling
 import urllib
 
 
@@ -126,8 +126,7 @@ class Inspection:
         rotated_original_image_path = self.saveImage(str('rotated_original_image' + str(self.inspection_id) + '.jpg'),
                                                      rotated_original_image,
                                                      'media/inspection/{}'.format(self.inspection_id))
-        rotated_binary_image = scipy.ndimage.rotate(
-            difference, median_angle, cval=0)
+        rotated_binary_image = scipy.ndimage.rotate(difference, median_angle, cval=0)
         cv2.imshow("rotated_original_image", rotated_original_image)
         cv2.waitKey(1)
         img_edges_BINARY = cv2.Canny(
@@ -174,7 +173,7 @@ class Inspection:
 
                 cv2.imshow("original_cropped", enhanced)
                 key = cv2.waitKey(0)
-                #             Standard (c)
+                # Standard (c)
                 if key == 99:
                     cv2.imwrite("standard.jpg", cropped_image)
                     Standard_image1_path = self.saveImage_pattern(str('PPM_IM1' + str(self.inspection_id) + '.jpg'),
@@ -186,7 +185,7 @@ class Inspection:
                                                          'media/inspection/{}'.format(self.inspection_id))
                     InspectionModel.objects.filter(id=self.inspection_id).update(
                         standard_image=standard_image_path)
-                #             Pattern Mismatch (v)
+                # Pattern Mismatch (v)
                 if key == 118:
                     cv2.imwrite("pattern.jpg", cropped_image)
                     Standard_image2_path = self.saveImage_pattern(str('PPM_IM2' + str(self.inspection_id) + '.jpg'),
@@ -266,6 +265,7 @@ class Inspection:
         for region in cropped_contours:
             area = cv2.contourArea(region)
             if area >= 30:
+                print('area ==============='+str(area))
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
                 # lights = Signalling()
                 # lights.signals()
@@ -278,11 +278,11 @@ class Inspection:
 
                 str_trial = str(round(trial, 2))
                 label = defects.predict_image(test_image)
-
+                print('label ==============='+(label)+' and '+ str(label[0]))
                 if label == 'spot':
-                    if 100 >= area >= 1:
+                    if area <= 90:
                         pinhole += 1
-                        labels = "pinhole" + \
+                        labels = 'pinhole' + \
                             str(pinhole) + " " + str_trial + "%"
 
                         cv2.putText(enhanced, labels, (xa, ya - 10),
@@ -290,14 +290,15 @@ class Inspection:
 
                     else:
                         spot += 1
-                        labels = "spot" + str(spot) + " " + str_trial + "%"
+                        labels = 'spot' + str(spot) + " " + str_trial + "%"
                         cv2.putText(enhanced, labels, (xa, ya - 10),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 else:
                     crack += 1
-                    labels = "crack" + str(crack) + " " + str_trial + "%"
+                    labels = 'crack' + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
 
                 # if label == 'spot':
@@ -310,9 +311,7 @@ class Inspection:
                 #     cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 #     cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
         cv2.imshow("Result", enhanced)
-        result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
-                                     enhanced,
-                                     'media/inspection/{}'.format(self.inspection_id))
+        result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),enhanced,'media/inspection/{}'.format(self.inspection_id))
         maxDefect = 0
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
