@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-# from .Signalling import Signalling
+from .Signalling import Signalling
 import urllib
 
 
@@ -315,8 +315,8 @@ class Inspection:
         maxDefect = 0
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
-#        lights = Signalling(maxDefect)
-  #      lights.signals()
+        lights = Signalling(maxDefect)
+        lights.signals()
         cv2.waitKey(0)
 
         totalDefects["cracks"] = crack
