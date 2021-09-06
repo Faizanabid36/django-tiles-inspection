@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-# from gpio.Signalling import Signalling
+from Signalling import Signalling
 import urllib
 
 
@@ -53,14 +53,14 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture(0)
+        videocapture = cv2.VideoCapture(1)
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
         initial_image.cvtGray()
         first_gray = initial_image.blurG((5, 5))
 
-        initial_frame_path = self.saveImage('first_Frame' + str(self.inspection_id) + '.jpg', first_frame,
-                                            'media/inspection/{}'.format(self.inspection_id))
+        initial_frame_path = self.saveImage(
+            'first_Frame' + str(self.inspection_id) + '.jpg', first_frame, 'media/inspection/{}'.format(self.inspection_id))
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.inspection_id,
@@ -279,7 +279,7 @@ class Inspection:
                 str_trial = str(round(trial, 2))
                 label = defects.predict_image(test_image)
 
-                if label[0] == 'spot':
+                if label == 'spot':
                     if 100 >= area >= 1:
                         pinhole += 1
                         labels = "pinhole" + \
@@ -377,7 +377,7 @@ class Inspection:
         cv2.destroyAllWindows()
 
         InspectionModel.objects.filter(id=self.inspection_id).update(
-            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final,is_completed=True)
+            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final, is_completed=True)
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.request.session['user_inspection_id'],
