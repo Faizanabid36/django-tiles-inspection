@@ -12,11 +12,16 @@ class Signalling:
     def signals(self):
         if self.threshold > 0.5:
             self.red.on()
+            self.yellow.off()
+            self.green.off()
             print("red on")
         elif self.threshold > 0.3:
             self.yellow.on()
+            self.green.off()
+            self.red.off()
             print("yellow on")
         else:
             self.green.on()
+            self.yellow.off()
+            self.red.off()
             print("green on")
-        sleep(2)
