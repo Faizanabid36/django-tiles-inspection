@@ -315,6 +315,7 @@ class Inspection:
         maxDefect = 0
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
+        print('ration' + str(maxDefect))
         lights = Signalling(maxDefect)
         lights.signals()
         cv2.waitKey(0)
