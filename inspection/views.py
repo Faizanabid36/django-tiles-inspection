@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.db.models import Sum, Count
 from django.template import RequestContext
 import json,statistics
-
+from django.db.models import Sum, Count
 # from django.utils import simplejson
 # from django.http import HttpResponse
 
@@ -15,7 +15,12 @@ import json,statistics
 
 def home(request):
     if 'user_id' in request.session:
-        return render(request, 'main-content.html', {"emp": EmployeeModel.objects.get(id=request.session['user_id'])})
+        # total_defect=InspectionModel.objects.values_list('', flat=True)
+        inspection = InspectionModel.objects.filter(is_completed = True).values()
+        counts=inspection.values_list().count()
+        total_defct=InspectionModel.objects.aggregate(Sum('number_of_defects'))
+        users=EmployeeModel.objects.aggregate(Count('name'))
+        return render(request, 'main-content.html', {"emp": EmployeeModel.objects.get(id=request.session['user_id']),"numberOfUsers":users,"ins":inspection,"total_defct": total_defct,"total_tile":counts})
     return redirect('/signin')
 
 def start_inspection(request):
@@ -91,7 +96,7 @@ def signin(request):
 def reportlist(request):
     li = []
     inspections=[]
-    from django.db.models import Sum, Count
+    
     item = UserInspectionModel.objects.filter(is_completed = True).values().distinct()
     for i in range(len(item)):
         li=[]
