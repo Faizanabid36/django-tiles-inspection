@@ -146,14 +146,9 @@ class Inspection:
                 grey_cropped_image_path = self.saveImage(str('grey_cropped_image' + str(self.inspection_id) + '.jpg'),
                                                          grey_cropped_image,
                                                          'media/inspection/{}'.format(self.inspection_id))
-                blur_cropped_image = cv2.GaussianBlur(grey_cropped_image, (5, 5), 0)
+                blur_cropped_image = cv2.GaussianBlur(grey_cropped_image, (17, 17), 0)
 
-                blur_cropped_image2 = cv2.GaussianBlur(cropped_image, (5, 5), 0)
-                grey_cropped_image = cv2.cvtColor(blur_cropped_image2, cv2.COLOR_BGR2GRAY)
-
-                clahe2 = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-                enhanced2 = clahe2.apply(blur_cropped_image)
-                cv2.imshow("original_cropped2", enhanced2)
+    
 
                 blur_cropped_image_path = self.saveImage(str('blur_cropped_image' + str(self.inspection_id) + '.jpg'),blur_cropped_image,'media/inspection/{}'.format(self.inspection_id))
                 #             grey_cropped_image = cropped.grey_image
@@ -174,13 +169,9 @@ class Inspection:
                 # Standard (c)
                 if key == 99:
                     cv2.imwrite("standard.jpg", cropped_image)
-                    Standard_image1_path = self.saveImage_pattern(str('PPM_IM1' + str(self.inspection_id) + '.jpg'),
-                                                                  cropped_image,
-                                                                  'media/inspection/{}'.format(self.inspection_id))
+                    Standard_image1_path = self.saveImage_pattern(str('PPM_IM1' + str(self.inspection_id) + '.jpg'),cropped_image,'media/inspection/{}'.format(self.inspection_id))
                     self.standard_image1 = Standard_image1_path
-                    standard_image_path = self.saveImage(str('standard_image' + str(self.inspection_id) + '.jpg'),
-                                                         cropped_image,
-                                                         'media/inspection/{}'.format(self.inspection_id))
+                    standard_image_path = self.saveImage(str('standard_image' + str(self.inspection_id) + '.jpg'),cropped_image,'media/inspection/{}'.format(self.inspection_id))
                     InspectionModel.objects.filter(id=self.inspection_id).update(
                         standard_image=standard_image_path)
                 # Pattern Mismatch (v)
@@ -216,13 +207,12 @@ class Inspection:
                             grey_cropped_image=grey_cropped_image_path,
                             blurred_cropped_image=blur_cropped_image_path,
                             enhanced_image=enhanced_path)
-                        self.defectDetection(enhanced2, frame)
+                        self.defectDetection(enhanced, frame)
 
                     elif self.inspection_type == 'pattern_mismatch':
                         if self.standard_image1 is not None and self.standard_image2 is not None:
 
-                            self.patternMismatch(
-                                self.standard_image1, self.standard_image2)
+                            self.patternMismatch(self.standard_image1, self.standard_image2)
 
                         else:
                             print("Give missing Image")
@@ -234,25 +224,19 @@ class Inspection:
         cv2.destroyAllWindows()
 
     def defectDetection(self, enhanced, frame):
-        totalDefects = {}
+        totalDefects = defectRatio = {}
         lables = ""
-        crack = 0
-        pinhole = 0
-        spot = 0
-        uniq = []
-        count = []
-        defectRatio = {}
-        countvar = 0
-        totalDefectNumber = 0
+        crack = countvar = pinhole = spot = totalDefectNumber = 0
+        count = uniq = []
+
 
         defects = DefectDetection(self.model_path, enhanced)
-        thresholded_crop, dilation = defects.enhancement((2, 2))
+        thresholded_crop, dilation = defects.enhancement((1, 1))
         thresholded_crop_path = self.saveImage(str('binary_cropped' + str(self.inspection_id) + '.jpg'),
                                                thresholded_crop,
                                                'media/inspection/{}'.format(self.inspection_id))
         cv2.imshow('binary_cropped', thresholded_crop)
-        originalunique, originalcounts = np.unique(
-            thresholded_crop, return_counts=True)
+        originalunique, originalcounts = np.unique(thresholded_crop, return_counts=True)
 
         morphed_cropped = self.saveImage(str('morphed_cropped' + str(self.inspection_id) + '.jpg'),
                                          dilation,
@@ -262,7 +246,7 @@ class Inspection:
             dilation, cv2.CHAIN_APPROX_SIMPLE)
         for region in cropped_contours:
             area = cv2.contourArea(region)
-            if area >= 30:
+            if area >= 25:
                 print('area ==============='+str(area))
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
                 # lights = Signalling()
@@ -278,7 +262,7 @@ class Inspection:
                 label = defects.predict_image(test_image)
                 print('label ==============='+(label)+' and '+ str(label[0]))
                 if label == 'spot':
-                    if area <= 90:
+                    if area <= 50:
                         pinhole += 1
                         labels = 'pinhole' + \
                             str(pinhole) + " " + str_trial + "%"
@@ -348,7 +332,7 @@ class Inspection:
         cv2.imshow("difference", diff)
         cv2.waitKey(1)
         thresh = 60
-        binary, opening = pmm.binaryImage(thresh, (3, 3))
+        binary, opening = pmm.binaryImage(thresh, (4, 4))
         thresholded_crop_path = self.saveImage(str('binary' + str(self.inspection_id) + '.jpg'),
                                                binary,
                                                'media/inspection/{}'.format(self.inspection_id))
