@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-# from gpio.Signalling import Signalling
+# from .Signalling import Signalling
 import urllib
 
 
@@ -53,14 +53,14 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture(0)
+        videocapture = cv2.VideoCapture(1)
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
         initial_image.cvtGray()
         first_gray = initial_image.blurG((5, 5))
 
-        initial_frame_path = self.saveImage('first_Frame' + str(self.inspection_id) + '.jpg', first_frame,
-                                            'media/inspection/{}'.format(self.inspection_id))
+        initial_frame_path = self.saveImage(
+            'first_Frame' + str(self.inspection_id) + '.jpg', first_frame, 'media/inspection/{}'.format(self.inspection_id))
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.inspection_id,
@@ -74,18 +74,15 @@ class Inspection:
 
             _, frame_input = videocapture.read()
             frame = Image(frame_input)
-            frame_path = self.saveImage(str('Frame' + str(self.inspection_id) + '.jpg'), frame.image,
-                                        'media/inspection/{}'.format(self.inspection_id))
+            frame_path = self.saveImage(str('Frame' + str(self.inspection_id) + '.jpg'), frame.image, 'media/inspection/{}'.format(self.inspection_id))
             frame.cvtGray()
             gray_frame = frame.blurG((7, 7))
             gray_frame_path = self.saveImage(str('gray_frame' + str(self.inspection_id) + '.jpg'), gray_frame,
                                              'media/inspection/{}'.format(self.inspection_id))
             difference = cv2.absdiff(first_gray, gray_frame)
-            _, difference = cv2.threshold(
-                difference, 20, 255, cv2.THRESH_BINARY)
+            _, difference = cv2.threshold(difference, 20, 255, cv2.THRESH_BINARY)
             cv2.imshow("Difference", difference)
-            difference_path = self.saveImage(str(
-                'difference' + str(self.inspection_id) + '.jpg'), difference, 'media/inspection/{}'.format(self.inspection_id))
+            difference_path = self.saveImage(str('difference' + str(self.inspection_id) + '.jpg'), difference, 'media/inspection/{}'.format(self.inspection_id))
 
             key = cv2.waitKey(1)
             # esc
@@ -101,13 +98,9 @@ class Inspection:
         median_angle = 0
         lines = None
         img_edges = frame.canny(difference)
-        img_edges_b_rotation_path = self.saveImage(str('img_edges_b_rotation' + str(self.inspection_id) + '.jpg'),
-                                                   img_edges,
-                                                   'media/inspection/{}'.format(self.inspection_id))
+        img_edges_b_rotation_path = self.saveImage(str('img_edges_b_rotation' + str(self.inspection_id) + '.jpg'),img_edges,'media/inspection/{}'.format(self.inspection_id))
         dilation = frame.dilate()
-        dilation_b_rotation_path = self.saveImage(str('dilation_b_rotation' + str(self.inspection_id) + '.jpg'),
-                                                  dilation,
-                                                  'media/inspection/{}'.format(self.inspection_id))
+        dilation_b_rotation_path = self.saveImage(str('dilation_b_rotation' + str(self.inspection_id) + '.jpg'),dilation,'media/inspection/{}'.format(self.inspection_id))
         rotation = Rotation()
 
         max_line = rotation.get_max_line(dilation, 50)
@@ -126,8 +119,7 @@ class Inspection:
         rotated_original_image_path = self.saveImage(str('rotated_original_image' + str(self.inspection_id) + '.jpg'),
                                                      rotated_original_image,
                                                      'media/inspection/{}'.format(self.inspection_id))
-        rotated_binary_image = scipy.ndimage.rotate(
-            difference, median_angle, cval=0)
+        rotated_binary_image = scipy.ndimage.rotate(difference, median_angle, cval=0)
         cv2.imshow("rotated_original_image", rotated_original_image)
         cv2.waitKey(1)
         img_edges_BINARY = cv2.Canny(
@@ -150,21 +142,26 @@ class Inspection:
                                                     cropped_image,
                                                     'media/inspection/{}'.format(self.inspection_id))
                 # cv2.imwrite("cropped_image.jpg", cropped_image)
-                grey_cropped_image = cv2.cvtColor(
-                    cropped_image, cv2.COLOR_BGR2GRAY)
+                grey_cropped_image = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
                 grey_cropped_image_path = self.saveImage(str('grey_cropped_image' + str(self.inspection_id) + '.jpg'),
                                                          grey_cropped_image,
                                                          'media/inspection/{}'.format(self.inspection_id))
-                blur_cropped_image = cv2.GaussianBlur(
-                    grey_cropped_image, (7, 7), 0)
-                blur_cropped_image_path = self.saveImage(str('blur_cropped_image' + str(self.inspection_id) + '.jpg'),
-                                                         blur_cropped_image,
-                                                         'media/inspection/{}'.format(self.inspection_id))
+                blur_cropped_image = cv2.GaussianBlur(grey_cropped_image, (5, 5), 0)
+
+                blur_cropped_image2 = cv2.GaussianBlur(cropped_image, (5, 5), 0)
+                grey_cropped_image = cv2.cvtColor(blur_cropped_image2, cv2.COLOR_BGR2GRAY)
+
+                clahe2 = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+                enhanced2 = clahe2.apply(blur_cropped_image)
+                cv2.imshow("original_cropped2", enhanced2)
+
+                blur_cropped_image_path = self.saveImage(str('blur_cropped_image' + str(self.inspection_id) + '.jpg'),blur_cropped_image,'media/inspection/{}'.format(self.inspection_id))
                 #             grey_cropped_image = cropped.grey_image
                 #             blur_cropped_image = cropped.blurred_image
                 #             enhanced = cropped.histogram_equalization()
 
                 # enhanced = blur_cropped_image
+
                 clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
                 enhanced = clahe.apply(blur_cropped_image)
 
@@ -174,7 +171,7 @@ class Inspection:
 
                 cv2.imshow("original_cropped", enhanced)
                 key = cv2.waitKey(0)
-                #             Standard (c)
+                # Standard (c)
                 if key == 99:
                     cv2.imwrite("standard.jpg", cropped_image)
                     Standard_image1_path = self.saveImage_pattern(str('PPM_IM1' + str(self.inspection_id) + '.jpg'),
@@ -186,7 +183,7 @@ class Inspection:
                                                          'media/inspection/{}'.format(self.inspection_id))
                     InspectionModel.objects.filter(id=self.inspection_id).update(
                         standard_image=standard_image_path)
-                #             Pattern Mismatch (v)
+                # Pattern Mismatch (v)
                 if key == 118:
                     cv2.imwrite("pattern.jpg", cropped_image)
                     Standard_image2_path = self.saveImage_pattern(str('PPM_IM2' + str(self.inspection_id) + '.jpg'),
@@ -219,7 +216,7 @@ class Inspection:
                             grey_cropped_image=grey_cropped_image_path,
                             blurred_cropped_image=blur_cropped_image_path,
                             enhanced_image=enhanced_path)
-                        self.defectDetection(enhanced, frame)
+                        self.defectDetection(enhanced2, frame)
 
                     elif self.inspection_type == 'pattern_mismatch':
                         if self.standard_image1 is not None and self.standard_image2 is not None:
@@ -249,7 +246,7 @@ class Inspection:
         totalDefectNumber = 0
 
         defects = DefectDetection(self.model_path, enhanced)
-        thresholded_crop, dilation = defects.enhancement((3, 3))
+        thresholded_crop, dilation = defects.enhancement((2, 2))
         thresholded_crop_path = self.saveImage(str('binary_cropped' + str(self.inspection_id) + '.jpg'),
                                                thresholded_crop,
                                                'media/inspection/{}'.format(self.inspection_id))
@@ -266,6 +263,7 @@ class Inspection:
         for region in cropped_contours:
             area = cv2.contourArea(region)
             if area >= 30:
+                print('area ==============='+str(area))
                 (xa, ya, wa, ha) = cv2.boundingRect(region)
                 # lights = Signalling()
                 # lights.signals()
@@ -278,11 +276,11 @@ class Inspection:
 
                 str_trial = str(round(trial, 2))
                 label = defects.predict_image(test_image)
-
-                if label[0] == 'spot':
-                    if 100 >= area >= 1:
+                print('label ==============='+(label)+' and '+ str(label[0]))
+                if label == 'spot':
+                    if area <= 90:
                         pinhole += 1
-                        labels = "pinhole" + \
+                        labels = 'pinhole' + \
                             str(pinhole) + " " + str_trial + "%"
 
                         cv2.putText(enhanced, labels, (xa, ya - 10),
@@ -290,14 +288,15 @@ class Inspection:
 
                     else:
                         spot += 1
-                        labels = "spot" + str(spot) + " " + str_trial + "%"
+                        labels = 'spot' + str(spot) + " " + str_trial + "%"
                         cv2.putText(enhanced, labels, (xa, ya - 10),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 else:
                     crack += 1
-                    labels = "crack" + str(crack) + " " + str_trial + "%"
+                    labels = 'crack' + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
 
                 # if label == 'spot':
@@ -310,14 +309,13 @@ class Inspection:
                 #     cv2.putText(enhanced, label, (xa, ya - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
                 #     cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
         cv2.imshow("Result", enhanced)
-        result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),
-                                     enhanced,
-                                     'media/inspection/{}'.format(self.inspection_id))
+        result_path = self.saveImage(str('Output' + str(self.inspection_id) + '.jpg'),enhanced,'media/inspection/{}'.format(self.inspection_id))
         maxDefect = 0
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
-#        lights = Signalling(maxDefect)
-  #      lights.signals()
+        print('ration' + str(maxDefect))
+        # lights = Signalling(maxDefect)
+        # lights.signals()
         cv2.waitKey(0)
 
         totalDefects["cracks"] = crack
@@ -377,7 +375,7 @@ class Inspection:
         cv2.destroyAllWindows()
 
         InspectionModel.objects.filter(id=self.inspection_id).update(
-            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final,is_completed=True)
+            number_of_defects=number_of_defects, binary_cropped=thresholded_crop_path, morphed_cropped=morphed_cropped, defected_image=result_path_final, is_completed=True)
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.request.session['user_inspection_id'],

@@ -117,10 +117,9 @@ def report(request, inspection_id):
         if inspections[i]['type'] == 'pattern_mismatch':
             ratio = inspections[i]['defect_ratio'].replace("\'", "\"")
             #trying to calculate average on print so check prints
-            sums=Sum(json.loads(ratio).values())
-            count=Count(json.loads(ratio).values())
-            average=sums/count
-            # ratiosum=Sum(json.loads(ratio).values())
+            # sums=Sum(json.loads(ratio).values())
+            # count=Count(json.loads(ratio).values())
+            # average=sums/count
         inspections[i]['avg_defects'] = 0
         total_defects+=inspections[i]['number_of_defects']
     # return JsonResponse([list(item)], safe=False)
