@@ -30,7 +30,7 @@ class Inspection:
         self.model_path = model_path
         self.inspection_id = inspection_id
         self.inspection_type = inspection_type
-        self.host = 'http://127.0.0.1:8000/'
+        self.host = 'http://192.168.43.238:8000/'
         self.standard_image1 = None
         self.standard_image2 = None
         self.emp = emp
