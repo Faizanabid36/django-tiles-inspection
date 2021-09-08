@@ -15,7 +15,7 @@ class Signalling:
             self.yellow.off()
             self.green.off()
             print("red on")
-        elif self.threshold > 0.3:
+        elif self.threshold > 0.1:
             self.yellow.on()
             self.green.off()
             self.red.off()

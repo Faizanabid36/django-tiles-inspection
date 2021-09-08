@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-from .Signalling import Signalling
+# from .Signalling import Signalling
 import urllib
 
 
@@ -30,7 +30,7 @@ class Inspection:
         self.model_path = model_path
         self.inspection_id = inspection_id
         self.inspection_type = inspection_type
-        self.host = 'http://192.168.43.238:8000/'
+        self.host = 'http://127.0.0.1:8000/'
         self.standard_image1 = None
         self.standard_image2 = None
         self.emp = emp
@@ -274,12 +274,12 @@ class Inspection:
                         spot += 1
                         labels = 'spot' + str(spot) + " " + str_trial + "%"
                         cv2.putText(enhanced, labels, (xa, ya - 10),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
                 else:
                     crack += 1
                     labels = 'crack' + str(crack) + " " + str_trial + "%"
                     cv2.putText(enhanced, labels, (xa, ya - 10),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0), 2)
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
                 cv2.rectangle(enhanced, (xa, ya), (xa + wa, ya + ha), (0, 0, 255), 2)
                 defectRatio[labels] = ((TestCount[1] / new) * 100)
 
@@ -298,23 +298,20 @@ class Inspection:
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
         print('ration' + str(maxDefect))
-        lights = Signalling(maxDefect)
-        lights.signals()
+        # lights = Signalling(maxDefect)
+        # lights.signals()
         cv2.waitKey(0)
-
-        totalDefects["cracks"] = crack
-        totalDefects["spots"] = spot
-        totalDefects["pinhole"] = pinhole
+        number_of_defects = crack + pinhole + spot
         totalDefectNumber = sum(totalDefects.values())
         InspectionModel.objects.filter(id=self.inspection_id).update(binary_cropped=thresholded_crop_path,
                                                                      morphed_cropped=morphed_cropped,
                                                                      defected_image=result_path,
-                                                                     cracks=totalDefects["cracks"],
-                                                                     pinhole=totalDefects["pinhole"],
-                                                                     spot=totalDefects["spots"],
+                                                                     cracks=crack,
+                                                                     pinhole=pinhole,
+                                                                     spot=spot,
                                                                      is_completed=True,
-                                                                     number_of_defects=totalDefectNumber,
-                                                                     defect_ratio=defectRatio)
+                                                                     number_of_defects=number_of_defects,
+                                                                     defect_ratio=totalDefectNumber)
         detail = InspectionModel(
             user_id=self.emp,
             user_inspection_id=self.request.session['user_inspection_id'],
