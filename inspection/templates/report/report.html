@@ -60,12 +60,12 @@
                                                 <span class="kt-invoice__text">Sep 9, 2021</span>
                                             </div>
                                             <div class="kt-invoice__item">
-                                                <span class="kt-invoice__subtitle">REPORT NO.</span>
-                                                <span class="kt-invoice__text"> INSPECT-{{inspection.id}}</span>
+                                                {% comment %} <span class="kt-invoice__subtitle">REPORT NO.</span>
+                                                <span class="kt-invoice__text"> INSPECT-{{inspection.id}}</span> {% endcomment %}
                                             </div>
                                             <div class="kt-invoice__item">
-                                                <span class="kt-invoice__subtitle">REPORT GENERATED.</span>
-                                                <span class="kt-invoice__text">....<br>...</span>
+                                                <span class="kt-invoice__subtitle">REPORT NO.</span>
+                                                <span class="kt-invoice__text"> INSPECT-{{inspection.id}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -84,6 +84,7 @@
                                                     <th>SPOTS</th>
                                                     <th>PINHOLE</th>
                                                     <th>DEFECTS</th>
+                                                    <th>Defect Ratio</th>
                                                     <th>IMAGE OF TILE</th>
                                                 </tr>
                                                 </thead>
@@ -95,6 +96,7 @@
                                                     <td>{{rep.spot}}</td>
                                                     <td>{{rep.pinhole}}</td>
                                                     <td>{{rep.number_of_defects}}</td>
+                                                    <td>{{rep.defect_ratio|floatformat:2}}</td>
                                                     <td><img src="{{rep.defected_image}}" alt="defected image" width="175" height="100"> </td>
                                                 </tr>
                                                 {% endfor %}
