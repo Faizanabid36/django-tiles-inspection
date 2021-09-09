@@ -23,9 +23,11 @@ def home(request):
         total_defct = InspectionModel.objects.aggregate(
             Sum('number_of_defects'))
         users = EmployeeModel.objects.aggregate(Count('name'))
+        items = UserInspectionModel.objects.filter(
+            is_completed=True).values().distinct().count()
         return render(request, 'main-content.html', {
             "emp": EmployeeModel.objects.get(id=request.session['user_id']),
-            "numberOfUsers": users, "ins": inspection,
+            "numberOfUsers": users, "ins": items,
             "total_defct": total_defct,
             "total_tile": counts})
     return redirect('/signin')
