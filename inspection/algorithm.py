@@ -120,7 +120,6 @@ class Inspection:
                                                      rotated_original_image,
                                                      'media/inspection/{}'.format(self.inspection_id))
         rotated_binary_image = scipy.ndimage.rotate(difference, median_angle, cval=0)
-        cv2.imshow("rotated_original_image", rotated_original_image)
         cv2.waitKey(1)
         img_edges_BINARY = cv2.Canny(
             rotated_binary_image, 100, 100, apertureSize=3)
@@ -137,7 +136,6 @@ class Inspection:
             area = cv2.contourArea(c)
             if area >= 1500:
                 cropped_image = frame.crop_image(rotated_original_image, c)
-                cv2.imshow("cropped_image", cropped_image)
                 cropped_image_path = self.saveImage(str('cropped_image' + str(self.inspection_id) + '.jpg'),
                                                     cropped_image,
                                                     'media/inspection/{}'.format(self.inspection_id))
@@ -235,7 +233,6 @@ class Inspection:
         thresholded_crop_path = self.saveImage(str('binary_cropped' + str(self.inspection_id) + '.jpg'),
                                                thresholded_crop,
                                                'media/inspection/{}'.format(self.inspection_id))
-        cv2.imshow('binary_cropped', thresholded_crop)
         originalunique, originalcounts = np.unique(thresholded_crop, return_counts=True)
 
         morphed_cropped = self.saveImage(str('morphed_cropped' + str(self.inspection_id) + '.jpg'),
@@ -350,7 +347,6 @@ class Inspection:
         cv2.imshow("Original", pmm.resizedA)
         cv2.imshow("Modified", pmm.resizedB)
         cv2.imshow("Diff", diff)
-        cv2.imshow("Thresh", opening)
 
         cv2.waitKey(0)
         cv2.destroyAllWindows()
