@@ -9,7 +9,7 @@ from .Image import Image
 from .PatternMismatch import PatternMismatch
 from .DefectDetection import DefectDetection
 import numpy as np
-# from .Signalling import Signalling
+from .Signalling import Signalling
 import urllib
 
 
@@ -30,7 +30,7 @@ class Inspection:
         self.model_path = model_path
         self.inspection_id = inspection_id
         self.inspection_type = inspection_type
-        self.host = 'http://127.0.0.1:8000/'
+        self.host = 'http://192.168.43.238:8000/'
         self.standard_image1 = None
         self.standard_image2 = None
         self.emp = emp
@@ -53,7 +53,7 @@ class Inspection:
         return pathh
 
     def start_inspection(self):
-        videocapture = cv2.VideoCapture(0)
+        videocapture = cv2.VideoCapture(1)
         _, first_frame = videocapture.read()
         initial_image = Image(first_frame)
         initial_image.cvtGray()
@@ -298,8 +298,8 @@ class Inspection:
         if defectRatio.values():
             maxDefect = max(defectRatio.values())
         print('ration' + str(maxDefect))
-        # lights = Signalling(maxDefect)
-        # lights.signals()
+        lights = Signalling(maxDefect)
+        lights.signals()
         cv2.waitKey(0)
         number_of_defects = crack + pinhole + spot
         totalDefectNumber = sum(totalDefects.values())
