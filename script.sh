@@ -1,5 +1,10 @@
 #!/bin/sh
 
+echo "**************************************************"
+echo "CERAMIC TILES QUALITY INSPECTION(FYP)"
+echo "**************************************************"
+
+
 echo "Enter message to commit:"
 read commitName
 
